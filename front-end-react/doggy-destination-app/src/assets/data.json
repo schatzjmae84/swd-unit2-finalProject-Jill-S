@@ -1,0 +1,51 @@
+[
+
+    {
+        "name":"Willmore Dog Park",
+        "description": "Large area with a beautiful dog park, ponds, picnic spots, and play areas.",
+        "address": "7200 Hampton Ave, St. Louis, MO 63109",
+        "website": "https://www.stlouis-mo.gov/government/departments/parks/parks/browse-parks/view-park.cfm?parkID=93&parkName=Willmore",
+        "activity": "Outdoor"
+    },
+
+    {
+        "name": "Central Park Maplewood",
+        "description": "This is a membership only dog park!  Memberships are annual and must be renewed each year.",
+        "address": "7461 Elm Ave, Maplewood, MO 63143",
+        "website": "https://www.maplewoodmo.gov/government/departments/dog_park/index.php",
+        "activity": "Outdoor"
+    },
+
+    {
+        "name": "SLU Dog Park & Sculpture Garden",
+        "description": "A beautiful park with great sculptures and lots of space for your pup to run and play!",
+        "address": "1 N. Grand Blvd, St. Louis, MO 63103",
+        "website": "No website available",
+        "activity": "Outdoor"
+    },
+
+    {
+        "name": "Bar K St. Louis",
+        "description": "A pup friendly bar that has food, drinks, and hosts local events for you and your pup!",
+        "address": "4565 McRee Ave, St. Louis, MO 63110",
+        "website": "https://barkdogbar.com/locations/st-louis-mo/",
+        "activity": "Social"
+    },
+
+    {
+        "name": "Zoomies Pet Cafe + Boutique",
+        "description": "Good food, good coffee, fun pup treats and trinkets in the boutique, and a fun outdoor area for the pups to play while you relax!",
+        "address": "5838 Macklind Ave, St. Louis, MO 63109",
+        "website": "https://www.zoomiespetcafe.com/eat-drink-play",
+        "activity": "Social"
+    },
+
+    {
+        "name": "Rockwell Beer Garden",
+        "description": "Pizza, pups, and pints!  All located in wonderful Francis Park!",
+        "address": "5300 Donovan Ave, St. Louis, MO, 63109",
+        "website": "https://www.rockwellbeer.com/francis-park",
+        "activity": "Social"
+    }
+
+]
