@@ -1,7 +1,10 @@
 package com.my_project.pup_places.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -19,6 +22,10 @@ public class Activity {
 
     @Column(name="pup_event")
     private String pupEvent;
+
+    @OneToMany(mappedBy = "activity")  // Establishing a one-to-many relationship with Destination
+    @JsonBackReference
+    private final List<Destination> destinations = new ArrayList<>();  // List to hold destinations associated with this activity
 
     public Activity(String outdoor, String socialSetting, String pupEvent) {
         this.outdoor = outdoor;

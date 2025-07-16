@@ -1,5 +1,6 @@
 package com.my_project.pup_places.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -17,15 +18,21 @@ public class Destination {
     @Column(name="rating")
     private int rating;
 
+    //@Column(name="activity") No longer needed, since our table is now linked to the Activity table
+    @ManyToOne  // Establishing a many-to-one relationship with Activity
+    @JsonManagedReference
+    private Activity activity;  // Activity associated with this destination
+
     @Column(name="description")
     private String description;
 
     @Column(name="website")
     private String website;
 
-    public Destination(String name, int rating, String description, String website) {
+    public Destination(String name, int rating, Activity activity, String description, String website) {
         this.name = name;
         this.rating = rating;
+        this.activity = activity;
         this.description = description;
         this.website = website;
     }
@@ -50,6 +57,14 @@ public class Destination {
 
     public void setRating(int rating) {
         this.rating = rating;
+    }
+
+    public Activity getActivity() {
+        return activity;
+    }
+
+    public void setActivity(Activity activity) {
+        this.activity = activity;
     }
 
     public String getDescription() {
