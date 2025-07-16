@@ -1,0 +1,187 @@
+body {    
+    font-family: "Playfair Display", serif;
+    padding: 10px;
+    background-image: url("./assets/pawprintBackground.jpg");
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;  
+    height: 100%;  
+}
+
+main {
+    height: 100%;
+}
+
+header {
+    padding: 10px;
+    color: rgb(172, 15, 101);
+    font-weight: bolder;
+    font-size: larger;
+    background-color: antiquewhite;
+    text-align: center;
+}
+
+h1 {
+    padding: 15px;    
+}
+
+.pic {
+    padding: 25px;
+    border: double;   
+    margin: 1vw; 
+}
+
+@media screen and (max-width: 600) {
+    .pic {
+        margin-right: 25%;     
+    }
+}
+
+
+button {
+    padding: 20px;
+    margin: 0.5vw;
+    cursor: pointer;
+    color: blue;
+    background-color: aliceblue;
+}
+
+main {
+    color: rgb(52, 117, 238);    
+}
+
+.appIntro, .appIntro2, .appIntro3, .question {
+    font-size: large;
+    font-weight: bold;
+    text-align: center;
+}
+
+h3 {
+    color: blue;
+    border: dotted;
+    text-align: center;
+
+}
+
+.container {
+    display: grid;
+    column-gap: 25px;
+    row-gap: 25px;
+    padding: 10px;
+    margin: 1vw;
+    border: double;
+    background-color: rgb(245, 239, 184);
+    border-radius: 10px;
+    border-width: thick;
+    font-weight: bold;
+    opacity: 0.90;
+}
+
+.item0 {
+    grid-column-start: 1;
+    grid-column-end: 3;    
+}
+
+.item1 {
+    grid-column-start: 1;
+    grid-column-end: 2;
+}
+
+.item2 {
+    grid-column-start: 2;
+    grid-column-end: 3;
+}
+
+.item3 {
+    grid-column-start: 1;
+    grid-column-end: 2;
+}
+
+.item4 {
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+
+.item5 {
+    grid-column-start: 1;
+    grid-column-end: 2;
+}
+
+.item6 {
+    grid-column-start: 2;
+    grid-column-end: 3;
+}
+
+.item7 {
+    grid-column-start: 1;
+    grid-column-end: 2;
+}
+
+.flex-container {
+    display: flex;
+    opacity: 0.90;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.flex-container > div {
+    margin: 10px;
+    padding: 10px;
+    font-size: 18px;
+    font-weight: bolder;
+    color: rgb(3, 3, 110);
+}
+
+input {
+    padding: 10px;
+}
+
+h2 {
+    font-weight: bolder;
+    color: blue;
+}
+
+.input {
+    background-color: rgb(243, 231, 120);
+    border: double;
+    font-weight: bold;
+    font-size: large;
+    border-radius: 10px;
+    padding: 1vw;
+    margin: 0.5vw;
+}
+
+footer {
+    padding: 10px;
+    font-weight: bolder;
+    font-size: medium;
+    background-color: rgb(153, 207, 238);
+    border: 1px solid;
+    border-radius: 10px;
+    color: blue;
+    opacity: 0.80;
+    margin: 10px;       
+}
+
+table, th, td {
+    border: 1px solid blue;
+    margin: 3px;
+    font-size: small;
+    text-align: center;
+}
+
+th {
+    font-weight: bolder;
+    font-size: medium;
+    color: rgb(3, 3, 110);
+    text-decoration: underline;
+}
+
+/* Copied from Google Fonts*/
+.playfair-display {
+  font-family: "Playfair Display", serif;
+  font-optical-sizing: auto;
+  font-weight: normal;
+  font-style: normal;
+}
+

@@ -1,0 +1,25 @@
+.selected-destination {
+    text-align: center;
+    padding: 25px;
+}
+
+.drop-menu {
+    margin: 1vw;
+    padding: 10px;
+    color: blue;
+    background-color: aliceblue;
+}
+
+.selected {
+    border: double;
+    border-radius: 10px;
+    background-color: rgb(243, 231, 120);
+}
+
+ul {
+    list-style-position: inside;
+    list-style-type: circle;
+    
+
+    
+}

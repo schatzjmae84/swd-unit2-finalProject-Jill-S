@@ -1,0 +1,30 @@
+.image-title {
+  margin: 1vw;
+  padding: 1rem 0;
+  text-align: center;
+  border: hidden;
+  background-color: antiquewhite;
+  border-radius: 10px;
+  
+  
+}
+
+.image-title h2 {
+  font-size: 2rem;  
+}
+
+.image-gallery-wrapper {
+  margin-top: 5rem;
+  max-width: 1850px;
+  width: 35;
+  margin: 3%;
+  border: 5px solid rgb(146, 129, 242);
+  box-shadow: #2b15453d 1px 10px 10px 5px;
+}
+
+@media screen and (min-width: 590px) {
+  .image-gallery-wrapper {
+    padding: 1rem;    
+  }
+}
+
