@@ -26,6 +26,9 @@ public class Address {
     @Column(name="zip_code")
     private String zipCode;
 
+    @OneToOne(mappedBy = "address") // Establishing a one-to-one relationship with Destination
+    private Destination destination;  // Destination associated with this address
+
     public Address(String addressOne, String addressTwo, String city, String state, String zipCode) {
         this.addressOne = addressOne;
         this.addressTwo = addressTwo;

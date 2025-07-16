@@ -23,16 +23,21 @@ public class Destination {
     @JsonManagedReference
     private Activity activity;  // Activity associated with this destination
 
+    @OneToOne(cascade = CascadeType.ALL) // Establishing a one-to-one relationship with Address
+    @JoinColumn(name="address_id", referencedColumnName = "id") // Linking to Address table
+    private Address address;  // Address associated with this destination
+
     @Column(name="description")
     private String description;
 
     @Column(name="website")
     private String website;
 
-    public Destination(String name, int rating, Activity activity, String description, String website) {
+    public Destination(String name, int rating, Activity activity, Address address, String description, String website) {
         this.name = name;
         this.rating = rating;
         this.activity = activity;
+        this.address = address;
         this.description = description;
         this.website = website;
     }
@@ -65,6 +70,14 @@ public class Destination {
 
     public void setActivity(Activity activity) {
         this.activity = activity;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     public String getDescription() {
