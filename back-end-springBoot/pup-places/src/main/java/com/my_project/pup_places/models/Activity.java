@@ -14,23 +14,15 @@ public class Activity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name="outdoor")
-    private String outdoor;
-
-    @Column(name="social_setting")
-    private String socialSetting;
-
-    @Column(name="pup_event")
-    private String pupEvent;
+    @Column(name="activity_title")
+    private String activityTitle;
 
     @OneToMany(mappedBy = "activity")  // Establishing a one-to-many relationship with Destination
     @JsonBackReference
     private final List<Destination> destinations = new ArrayList<>();  // List to hold destinations associated with this activity
 
-    public Activity(String outdoor, String socialSetting, String pupEvent) {
-        this.outdoor = outdoor;
-        this.socialSetting = socialSetting;
-        this.pupEvent = pupEvent;
+    public Activity(String activityTitle) {
+        this.activityTitle = activityTitle;
     }
 
     public Activity() {};
@@ -39,33 +31,21 @@ public class Activity {
         return id;
     }
 
-    public String getOutdoor() {
-        return outdoor;
+    public String getActivityTitle() {
+        return activityTitle;
     }
 
-    public void setOutdoor(String outdoor) {
-        this.outdoor = outdoor;
+    public void setActivityTitle(String activityTitle) {
+        this.activityTitle = activityTitle;
     }
 
-    public String getSocialSetting() {
-        return socialSetting;
-    }
-
-    public void setSocialSetting(String socialSetting) {
-        this.socialSetting = socialSetting;
-    }
-
-    public String getPupEvent() {
-        return pupEvent;
-    }
-
-    public void setPupEvent(String pupEvent) {
-        this.pupEvent = pupEvent;
+    public List<Destination> getDestinations() {
+        return destinations;
     }
 
     @Override
     public String toString() {
-        return outdoor + " " + socialSetting + " " + pupEvent;
+        return activityTitle;
     }
 
     @Override
