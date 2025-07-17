@@ -14,9 +14,6 @@ public class Address {
     @Column(name="address_one")
     private String addressOne;
 
-    @Column(name="address_two")
-    private String addressTwo;
-
     @Column(name="city")
     private String city;
 
@@ -29,9 +26,8 @@ public class Address {
     @OneToOne(mappedBy = "address") // Establishing a one-to-one relationship with Destination
     private Destination destination;  // Destination associated with this address
 
-    public Address(String addressOne, String addressTwo, String city, String state, String zipCode) {
+    public Address(String addressOne, String city, String state, String zipCode) {
         this.addressOne = addressOne;
-        this.addressTwo = addressTwo;
         this.city = city;
         this.state = state;
         this.zipCode = zipCode;
@@ -49,14 +45,6 @@ public class Address {
 
     public void setAddressOne(String addressOne) {
         this.addressOne = addressOne;
-    }
-
-    public String getAddressTwo() {
-        return addressTwo;
-    }
-
-    public void setAddressTwo(String addressTwo) {
-        this.addressTwo = addressTwo;
     }
 
     public String getCity() {
@@ -86,7 +74,6 @@ public class Address {
     @Override
     public String toString() {
         return addressOne + "\n" +
-                addressTwo + "\n" +
                 city + ", " + state + " " + zipCode;
     }
 
