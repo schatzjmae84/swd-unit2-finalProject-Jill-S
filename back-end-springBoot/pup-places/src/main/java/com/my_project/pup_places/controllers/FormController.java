@@ -1,4 +1,41 @@
 package com.my_project.pup_places.controllers;
 
+import com.my_project.pup_places.models.Form;
+import com.my_project.pup_places.repositories.FormRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Collections;
+
+@RestController
+@RequestMapping("/api/pupPlaces") //
 public class FormController {
+
+    @Autowired
+    FormRepository formRepository;
+
+    //GET method to retrieve a single form by its ID
+    //Corresponds to the endpoint: /api/pupPlaces/forms/{formId}
+    @GetMapping(value="/forms/{formId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getFormById(@PathVariable(value = "formId") int formId) {
+        Form currentForm = formRepository.findById(formId).orElse(null);
+        if (currentForm != null) {
+            return new ResponseEntity<>(currentForm, HttpStatus.OK); // 200 OK
+        } else {
+            String response = "The form with the ID of " + formId + " does not exist.";
+            return new ResponseEntity<>(Collections.singletonMap("response", response), HttpStatus.NOT_FOUND); // 404 Not Found
+        }
+    }
+
+    //POST method to create a new form
+    //Corresponds to the endpoint: /api/pupPlaces/forms
+    @PostMapping(value = "/forms", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> createNewForm(@RequestBody Form form) {
+        Form newForm = new Form(form.getPupName(), form.getUsername(), form.getDogBreed(), form.getActivity(), form.getZipCode());
+        formRepository.save(newForm);
+        return new ResponseEntity<>(newForm, HttpStatus.CREATED); // 201 Created
+    }
 }
