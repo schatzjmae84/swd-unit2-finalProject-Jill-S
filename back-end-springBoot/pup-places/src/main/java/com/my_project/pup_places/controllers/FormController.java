@@ -38,4 +38,18 @@ public class FormController {
         formRepository.save(newForm);
         return new ResponseEntity<>(newForm, HttpStatus.CREATED); // 201 Created
     }
+
+    //DELETE method to delete a form by its ID
+    //Corresponds to the endpoint: /api/pupPlaces/forms/delete/{formId}
+    @DeleteMapping(value = "/forms/delete/{formId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> deleteForm(@PathVariable(value = "formId") int formId) {
+        Form currentForm = formRepository.findById(formId).orElse(null);
+        if (currentForm != null) {
+            formRepository.deleteById(formId);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT); // 204 No Content
+        } else {
+            String response = "The form with the ID of " + formId + " was not found.";
+            return new ResponseEntity<>(Collections.singletonMap("response", response), HttpStatus.NOT_FOUND); // 404 Not Found
+        }
+    }
 }
