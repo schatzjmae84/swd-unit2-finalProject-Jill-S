@@ -39,6 +39,25 @@ public class FormController {
         return new ResponseEntity<>(newForm, HttpStatus.CREATED); // 201 Created
     }
 
+    //PUT method to update an existing form by its ID
+    //Corresponds to the endpoint: /api/pupPlaces/forms/{formId}
+    @PutMapping(value = "/forms/{formId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> updateForm(@PathVariable (value = "formId") int formId, @RequestBody Form updatedForm) {
+        Form currentForm = formRepository.findById(formId).orElse(null);
+        if (currentForm != null) {
+            currentForm.setPupName(updatedForm.getPupName());
+            currentForm.setUsername(updatedForm.getUsername());
+            currentForm.setDogBreed(updatedForm.getDogBreed());
+            currentForm.setActivity(updatedForm.getActivity());
+            currentForm.setZipCode(updatedForm.getZipCode());
+            formRepository.save(currentForm);
+            return new ResponseEntity<>(currentForm, HttpStatus.OK); // 200 OK
+        } else {
+            String response = "The form with the ID of " + formId + " does not exist.";
+            return new ResponseEntity<>(Collections.singletonMap("response", response), HttpStatus.NOT_FOUND); // 404 Not Found
+        }
+    }
+
     //DELETE method to delete a form by its ID
     //Corresponds to the endpoint: /api/pupPlaces/forms/delete/{formId}
     @DeleteMapping(value = "/forms/delete/{formId}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -48,7 +67,7 @@ public class FormController {
             formRepository.deleteById(formId);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT); // 204 No Content
         } else {
-            String response = "The form with the ID of " + formId + " was not found.";
+            String response = "The form with the ID of " + formId + " does not exist.";
             return new ResponseEntity<>(Collections.singletonMap("response", response), HttpStatus.NOT_FOUND); // 404 Not Found
         }
     }

@@ -1,8 +1,6 @@
 package com.my_project.pup_places.controllers;
 
-import com.my_project.pup_places.models.Address;
 import com.my_project.pup_places.models.Destination;
-import com.my_project.pup_places.models.dto.DestinationDTO;
 import com.my_project.pup_places.repositories.ActivityRepository;
 import com.my_project.pup_places.repositories.DestinationRepository;
 import com.my_project.pup_places.repositories.AddressRepository;

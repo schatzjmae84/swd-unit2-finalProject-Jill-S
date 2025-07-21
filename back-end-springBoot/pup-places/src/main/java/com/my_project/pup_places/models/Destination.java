@@ -2,6 +2,7 @@ package com.my_project.pup_places.models;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import javafx.scene.text.Text;
 
 import java.util.Objects;
 
@@ -31,13 +32,18 @@ public class Destination {
     @Column(name="website")
     private String website;
 
-    public Destination(String name, int rating, String activity, Address address, String description, String website) {
+    @Lob
+    @Column(name = "destination_review")
+    private String destinationReview;
+
+    public Destination(String name, int rating, String activity, Address address, String description, String website, String destinationReview) {
         this.name = name;
         this.rating = rating;
         this.activity = activity;
         this.address = address;
         this.description = description;
         this.website = website;
+        this.destinationReview = destinationReview;
     }
 
     public Destination() {};
@@ -94,6 +100,14 @@ public class Destination {
         this.website = website;
     }
 
+    public String getDestinationReview() {
+        return destinationReview;
+    }
+
+    public void setDestinationReview(String destinationReview) {
+        this.destinationReview = destinationReview;
+    }
+
     @Override
     public String toString() {
         return "Name:" + name + "\n" +
@@ -101,7 +115,8 @@ public class Destination {
                 "Activity:" + activity + "\n" +
                 "Address:" + address + "\n" +
                 "Description:" + description + "\n" +
-                "Website:" + website;
+                "Website:" + website + "\n" +
+                "Destination Review:" + destinationReview;
     }
 
     @Override
