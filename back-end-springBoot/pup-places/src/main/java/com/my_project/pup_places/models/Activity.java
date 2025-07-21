@@ -14,15 +14,23 @@ public class Activity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name="activity_title")
-    private String activityTitle;
+    @Column(name="activity_one")
+    private String activityOne;
+
+    @Column(name = "activity_two")
+    private String activityTwo;
+
+    @Column(name = "activity_three")
+    private String activityThree;
 
     @OneToMany(mappedBy = "activity")  // Establishing a one-to-many relationship with Destination
     @JsonBackReference
     private final List<Destination> destinations = new ArrayList<>();  // List to hold destinations associated with this activity
 
-    public Activity(String activityTitle) {
-        this.activityTitle = activityTitle;
+    public Activity(String activityOne, String activityTwo, String activityThree) {
+        this.activityOne = activityOne;
+        this.activityTwo = activityTwo;
+        this.activityThree = activityThree;
     }
 
     public Activity() {};
@@ -31,12 +39,28 @@ public class Activity {
         return id;
     }
 
-    public String getActivityTitle() {
-        return activityTitle;
+    public String getActivityOne() {
+        return activityOne;
     }
 
-    public void setActivityTitle(String activityTitle) {
-        this.activityTitle = activityTitle;
+    public void setActivityOne(String activityOne) {
+        this.activityOne = activityOne;
+    }
+
+    public String getActivityTwo() {
+        return activityTwo;
+    }
+
+    public void setActivityTwo(String activityTwo) {
+        this.activityTwo = activityTwo;
+    }
+
+    public String getActivityThree() {
+        return activityThree;
+    }
+
+    public void setActivityThree(String activityThree) {
+        this.activityThree = activityThree;
     }
 
     public List<Destination> getDestinations() {
@@ -45,7 +69,7 @@ public class Activity {
 
     @Override
     public String toString() {
-        return activityTitle;
+        return activityOne + ", " + activityTwo + ", " + activityThree;
     }
 
     @Override

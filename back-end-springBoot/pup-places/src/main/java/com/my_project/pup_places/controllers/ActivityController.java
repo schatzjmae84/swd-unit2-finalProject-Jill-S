@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Collections;
 
 @RestController
-@RequestMapping("/api/idealInfo")
+@RequestMapping("/api/idealInfo") // Base URL for the API
 public class ActivityController {
 
     @Autowired

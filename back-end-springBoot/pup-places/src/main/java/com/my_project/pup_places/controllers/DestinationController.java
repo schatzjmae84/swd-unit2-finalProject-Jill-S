@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collections;
 
 @RestController
-@RequestMapping("/api/doggyDestinations")
+@RequestMapping("/api/doggyDestinations") // Base URL for the API
 public class DestinationController {
 
     @Autowired
