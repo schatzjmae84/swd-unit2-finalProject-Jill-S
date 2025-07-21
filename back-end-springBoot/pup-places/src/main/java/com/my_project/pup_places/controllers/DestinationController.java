@@ -1,9 +1,7 @@
 package com.my_project.pup_places.controllers;
 
 import com.my_project.pup_places.models.Destination;
-import com.my_project.pup_places.repositories.ActivityRepository;
 import com.my_project.pup_places.repositories.DestinationRepository;
-import com.my_project.pup_places.repositories.AddressRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,12 +17,6 @@ public class DestinationController {
 
     @Autowired
     DestinationRepository destinationRepository;
-
-    @Autowired
-    AddressRepository addressRepository;
-
-    @Autowired
-    ActivityRepository activityRepository;
 
     // GET method to retrieve a single destination by its ID
     // Corresponds to the endpoint: /api/doggyDestinations/destinations/{destinationId}

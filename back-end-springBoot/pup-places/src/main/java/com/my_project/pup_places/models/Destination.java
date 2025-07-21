@@ -1,9 +1,10 @@
 package com.my_project.pup_places.models;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import javafx.scene.text.Text;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -32,18 +33,17 @@ public class Destination {
     @Column(name="website")
     private String website;
 
-    @Lob
-    @Column(name = "destination_review")
-    private String destinationReview;
+    @OneToMany(mappedBy = "destination")
+    @JsonBackReference
+    private final List<DestinationReview> destinationReviews = new ArrayList<>();
 
-    public Destination(String name, int rating, String activity, Address address, String description, String website, String destinationReview) {
+    public Destination(String name, int rating, String activity, Address address, String description, String website) {
         this.name = name;
         this.rating = rating;
         this.activity = activity;
         this.address = address;
         this.description = description;
         this.website = website;
-        this.destinationReview = destinationReview;
     }
 
     public Destination() {};
@@ -100,12 +100,8 @@ public class Destination {
         this.website = website;
     }
 
-    public String getDestinationReview() {
-        return destinationReview;
-    }
-
-    public void setDestinationReview(String destinationReview) {
-        this.destinationReview = destinationReview;
+    public List<DestinationReview> getDestinationReviews() {
+        return destinationReviews;
     }
 
     @Override
@@ -115,14 +111,14 @@ public class Destination {
                 "Activity:" + activity + "\n" +
                 "Address:" + address + "\n" +
                 "Description:" + description + "\n" +
-                "Website:" + website + "\n" +
-                "Destination Review:" + destinationReview;
+                "Website:" + website;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Destination)) return false;
+        if (o == null || getClass() != o.getClass())
+            return false;
         Destination destination = (Destination) o;
         return id == destination.id;
     }
