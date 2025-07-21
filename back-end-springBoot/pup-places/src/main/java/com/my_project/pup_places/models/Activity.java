@@ -23,10 +23,6 @@ public class Activity {
     @Column(name = "activity_three")
     private String activityThree;
 
-    @OneToMany(mappedBy = "activity")  // Establishing a one-to-many relationship with Destination
-    @JsonBackReference
-    private final List<Destination> destinations = new ArrayList<>();  // List to hold destinations associated with this activity
-
     public Activity(String activityOne, String activityTwo, String activityThree) {
         this.activityOne = activityOne;
         this.activityTwo = activityTwo;
@@ -61,10 +57,6 @@ public class Activity {
 
     public void setActivityThree(String activityThree) {
         this.activityThree = activityThree;
-    }
-
-    public List<Destination> getDestinations() {
-        return destinations;
     }
 
     @Override

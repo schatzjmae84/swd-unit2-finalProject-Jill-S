@@ -20,7 +20,7 @@ public class ActivityController {
     @Autowired
     ActivityRepository activityRepository;
 
-    // GET method to retrieve a single activity by its ID
+    // GET method to retrieve a single list of Doggy Destinations by their same ID
     // Corresponds to the endpoint: /api/idealInfo/activities/{activityId}
     @GetMapping(value = "activities/{activityId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getActivityById(@PathVariable(value = "activityId") int activityId) {

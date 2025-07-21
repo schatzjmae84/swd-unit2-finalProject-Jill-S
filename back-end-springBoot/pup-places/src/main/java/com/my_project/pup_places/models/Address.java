@@ -74,7 +74,7 @@ public class Address {
     @Override
     public String toString() {
         return addressOne + "\n" +
-                city + ", " + state + " " + zipCode;
+                city + ", " + state + ", " + zipCode;
     }
 
     @Override
