@@ -1,10 +1,8 @@
 package com.my_project.pup_places.models;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.util.Objects;
 
 @Entity
@@ -24,15 +22,10 @@ public class DestinationReview {
     @Lob
     private String review;
 
-    @ManyToOne
-    @JsonManagedReference
-    private Destination destination;
-
-    public DestinationReview(String name, BigDecimal rating, String review, Destination destination) {
+    public DestinationReview(String name, BigDecimal rating, String review) {
         this.name = name;
         this.rating = rating;
         this.review = review;
-        this.destination = destination;
     }
 
     public DestinationReview() {};
@@ -59,14 +52,6 @@ public class DestinationReview {
 
     public void setReview(String review) {
         this.review = review;
-    }
-
-    public Destination getDestination() {
-        return destination;
-    }
-
-    public void setDestination(Destination destination) {
-        this.destination = destination;
     }
 
     @Override

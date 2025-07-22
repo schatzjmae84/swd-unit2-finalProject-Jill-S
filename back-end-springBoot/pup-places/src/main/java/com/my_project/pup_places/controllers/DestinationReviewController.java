@@ -25,8 +25,7 @@ public class DestinationReviewController {
         DestinationReview newDestinationReview = new DestinationReview(
                 destinationReview.getName(),
                 destinationReview.getRating(),
-                destinationReview.getReview(),
-                destinationReview.getDestination()
+                destinationReview.getReview()
         );
         destinationReviewRepository.save(newDestinationReview);
         return new ResponseEntity<>(newDestinationReview, HttpStatus.CREATED); // 201 Created

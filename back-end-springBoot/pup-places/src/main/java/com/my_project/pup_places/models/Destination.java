@@ -33,10 +33,6 @@ public class Destination {
     @Column(name="website")
     private String website;
 
-    @OneToMany(mappedBy = "destination")
-    @JsonBackReference
-    private final List<DestinationReview> destinationReviews = new ArrayList<>();
-
     public Destination(String name, int rating, String activity, Address address, String description, String website) {
         this.name = name;
         this.rating = rating;
@@ -98,10 +94,6 @@ public class Destination {
 
     public void setWebsite(String website) {
         this.website = website;
-    }
-
-    public List<DestinationReview> getDestinationReviews() {
-        return destinationReviews;
     }
 
     @Override
