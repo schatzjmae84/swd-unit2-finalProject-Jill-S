@@ -1,13 +1,10 @@
 package com.my_project.pup_places.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
-@Entity
+@Entity   // Represents a destination for pets, such as a dog park or pet-friendly social setting
 public class Destination {
 
     @Id
@@ -25,7 +22,7 @@ public class Destination {
 
     @OneToOne(cascade = CascadeType.ALL) // Establishing a one-to-one relationship with Address
     @JoinColumn(name="address_id", referencedColumnName = "id") // Linking to Address table
-    private Address address;  // Address associated with this destination
+    private Address address;  // Address associated with a single destination
 
     @Column(name="description")
     private String description;

@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-@Entity
+@Entity    // Represents a review for a doggy destination
 public class DestinationReview {
 
     @Id
@@ -16,10 +16,10 @@ public class DestinationReview {
     private String name;
 
     @Column(name = "rating")
-    private BigDecimal rating;
+    private BigDecimal rating;  // Using BigDecimal for precise rating values
 
     @Column(name = "review", columnDefinition = "TEXT")
-    @Lob
+    @Lob  // Allows for larger text reviews
     private String review;
 
     public DestinationReview(String name, BigDecimal rating, String review) {

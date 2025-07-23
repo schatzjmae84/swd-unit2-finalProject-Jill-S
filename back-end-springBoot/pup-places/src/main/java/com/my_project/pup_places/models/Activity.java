@@ -1,13 +1,10 @@
 package com.my_project.pup_places.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
-@Entity
+@Entity    //Represents lists of activities that a user can select for them and their pup to do together
 public class Activity {
 
     @Id

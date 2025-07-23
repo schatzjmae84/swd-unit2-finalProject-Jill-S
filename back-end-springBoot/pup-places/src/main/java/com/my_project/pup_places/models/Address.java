@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 import java.util.Objects;
 
-@Entity
+@Entity    // Represents an address associated with a destination
 public class Address {
 
     @Id
