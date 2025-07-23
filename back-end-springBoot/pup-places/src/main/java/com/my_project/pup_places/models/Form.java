@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 import java.util.Objects;
 
-@Entity
+@Entity    // Represents a form for the user to fill out if they are interested in signing up for pupPerks
 public class Form {
 
     @Id

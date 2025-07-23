@@ -1,11 +1,10 @@
 package com.my_project.pup_places.models;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.Objects;
 
-@Entity
+@Entity   // Represents a destination for pets, such as a dog park or pet-friendly social setting
 public class Destination {
 
     @Id
@@ -18,14 +17,12 @@ public class Destination {
     @Column(name="rating")
     private int rating;
 
-    //@Column(name="activity") No longer needed, since our table is now linked to the Activity table
-    @ManyToOne  // Establishing a many-to-one relationship with Activity
-    @JsonManagedReference
-    private Activity activity;  // Activity associated with this destination
+    @Column(name = "activity")
+    private String activity;
 
     @OneToOne(cascade = CascadeType.ALL) // Establishing a one-to-one relationship with Address
     @JoinColumn(name="address_id", referencedColumnName = "id") // Linking to Address table
-    private Address address;  // Address associated with this destination
+    private Address address;  // Address associated with a single destination
 
     @Column(name="description")
     private String description;
@@ -33,7 +30,7 @@ public class Destination {
     @Column(name="website")
     private String website;
 
-    public Destination(String name, int rating, Activity activity, Address address, String description, String website) {
+    public Destination(String name, int rating, String activity, Address address, String description, String website) {
         this.name = name;
         this.rating = rating;
         this.activity = activity;
@@ -64,11 +61,11 @@ public class Destination {
         this.rating = rating;
     }
 
-    public Activity getActivity() {
+    public String getActivity() {
         return activity;
     }
 
-    public void setActivity(Activity activity) {
+    public void setActivity(String activity) {
         this.activity = activity;
     }
 
@@ -100,6 +97,8 @@ public class Destination {
     public String toString() {
         return "Name:" + name + "\n" +
                 "Rating:" + rating + "\n" +
+                "Activity:" + activity + "\n" +
+                "Address:" + address + "\n" +
                 "Description:" + description + "\n" +
                 "Website:" + website;
     }
@@ -107,7 +106,8 @@ public class Destination {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Destination)) return false;
+        if (o == null || getClass() != o.getClass())
+            return false;
         Destination destination = (Destination) o;
         return id == destination.id;
     }

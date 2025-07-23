@@ -1,36 +1,29 @@
 package com.my_project.pup_places.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
-@Entity
+@Entity    //Represents lists of activities that a user can select for them and their pup to do together
 public class Activity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name="outdoor")
-    private String outdoor;
+    @Column(name="activity_one")
+    private String activityOne;
 
-    @Column(name="social_setting")
-    private String socialSetting;
+    @Column(name = "activity_two")
+    private String activityTwo;
 
-    @Column(name="pup_event")
-    private String pupEvent;
+    @Column(name = "activity_three")
+    private String activityThree;
 
-    @OneToMany(mappedBy = "activity")  // Establishing a one-to-many relationship with Destination
-    @JsonBackReference
-    private final List<Destination> destinations = new ArrayList<>();  // List to hold destinations associated with this activity
-
-    public Activity(String outdoor, String socialSetting, String pupEvent) {
-        this.outdoor = outdoor;
-        this.socialSetting = socialSetting;
-        this.pupEvent = pupEvent;
+    public Activity(String activityOne, String activityTwo, String activityThree) {
+        this.activityOne = activityOne;
+        this.activityTwo = activityTwo;
+        this.activityThree = activityThree;
     }
 
     public Activity() {};
@@ -39,33 +32,33 @@ public class Activity {
         return id;
     }
 
-    public String getOutdoor() {
-        return outdoor;
+    public String getActivityOne() {
+        return activityOne;
     }
 
-    public void setOutdoor(String outdoor) {
-        this.outdoor = outdoor;
+    public void setActivityOne(String activityOne) {
+        this.activityOne = activityOne;
     }
 
-    public String getSocialSetting() {
-        return socialSetting;
+    public String getActivityTwo() {
+        return activityTwo;
     }
 
-    public void setSocialSetting(String socialSetting) {
-        this.socialSetting = socialSetting;
+    public void setActivityTwo(String activityTwo) {
+        this.activityTwo = activityTwo;
     }
 
-    public String getPupEvent() {
-        return pupEvent;
+    public String getActivityThree() {
+        return activityThree;
     }
 
-    public void setPupEvent(String pupEvent) {
-        this.pupEvent = pupEvent;
+    public void setActivityThree(String activityThree) {
+        this.activityThree = activityThree;
     }
 
     @Override
     public String toString() {
-        return outdoor + " " + socialSetting + " " + pupEvent;
+        return activityOne + ", " + activityTwo + ", " + activityThree;
     }
 
     @Override
