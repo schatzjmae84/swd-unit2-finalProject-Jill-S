@@ -6,118 +6,118 @@ import { ToastContainer, toast, Bounce } from "react-toastify";
 
 const DestinationInfo = (props) => {
 
-    // state variable to store the input from the activity portion of the form
-    const [ activityInput, setActivityInput ] = useState("");
+    // State variables to hold values of form input fields.
+    const [pupName, setPupName] = useState("");
+    const [username, setUsername] = useState("");
+    const [dogBreed, setDogBreed] = useState("");
+    const [activity, setActivity] = useState("");
+    const [zipCode, setZipCode] = useState("");
 
-    const [ formData, setFormData ] = useState({
-        pupName: "",
-        dogType: "",
-        activity: "",
-        zipCode: "",
-    });
-
-    const [ errors, setErrors ] = useState({});
-
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-        setFormData({ ...formData, [name]: value,});
-    };      
-
-    //event handler for the new activity from the activity input
-    //when form input is handled in phase 2, this variable will be included in the onClick of the submit button
-    const handleActivityChange = (event) => {
-        event.preventDefault();
-        let pupActivity = (event.target.value);
-        setActivityInput(pupActivity);
-        props.updateActivity(pupActivity);               
-    };    
-    
-    // form submit event handler and form validation
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const newErrors = validateNeededInfo(formData);
-        setErrors(newErrors);
-
-        if (Object.keys(newErrors).length === 0) {
-            console.log("Thank you for your form submission!");
-        }else{
-            console.log("Please, review your required information and resubmit.")
-        }
+    // Pup Name input handler (note e is the event object)
+    const handlePupNameChange = (e) => {
+        e.preventDefault();
+        let input = (e.target.value);
+        setPupName(input);
+        props.updatePupName(input);
     };
 
-    const validateNeededInfo = (data) => {
-        const errors = {};
-
-        if (!data.activity) {
-            errors.activity = "Activity Selection is Required";
-        }
-
-        if (!data.zipCode) {
-            errors.zipCode = "Please, enter a valid Zip Code to proceed.";
-        }
-
-        return errors;
+    // Username input handler
+    const handleUsernameChange = (e) => {
+        e.preventDefault();
+        let input = (e.target.value);
+        setUsername(input);
+        props.updateUsername(input);
     };
-        
 
-    const submitSuccess = () => {
-        toast("Thank you!  Your \'Pup Place Participant Form' has been successfully submitted!", {
-            className: "success-toast",
-            draggable: true,
-            transition: Bounce,
-        });
-    };     
-    
+    // Dog Breed input handler
+    const handleDogBreedChange = (e) => {
+        e.preventDefault();
+        let input = (e.target.value);
+        setDogBreed(input);
+        props.updateDogBreed(input);
+    };
+
+    // Activity input handler
+    const handleActivityChange = (e) => {
+        e.preventDefault();
+        let input = (e.target.value);
+        setActivity(input);
+        props.updateActivity(input);
+    };
+
+    // Zip Code input handler
+    const handleZipCodeChange = (e) => {
+        e.preventDefault();
+        let input = (e.target.value);
+        setZipCode(input);
+        props.updateZipCode(input);
+    };  
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (!pupName || !username || !dogBreed || !activity || !zipCode) {
+            toast.error("Please, fill out all required fields!", {
+                position: "top-center",
+                autoClose: 3000,
+                closeOnClick: true,
+                draggable: true,
+                transition: Bounce
+            });
+        } else {
+            toast.success("Thank you! You have successfully signed up for pupPerks!", {
+                position: "top-center",
+                autoClose: 3000,
+                closeOnClick: true,
+                draggable: true,
+                transition: Bounce
+            });
+        };
+    };
 
     return (
 
-        <div>                   
+        <div>                                          
         <div className="form-box">
-        <form onSubmit={handleSubmit}>
+        <form>
             <div className="field1">
             <h1 className="title">Pup Place Participant Form</h1>
             <label>                
-                <input placeholder="Pup's Name" type="text" name="pupName" value={formData.pupName}
-                onChange={handleChange}/>
+                <input required placeholder="Pup's Name" type="text" name="pupName" value={pupName}
+                onChange={handlePupNameChange}/>
             </label><br />
             <label>                
-                <input placeholder="Type of Dog" type="text" name="dogType" value={formData.dogType}
-                onChange={handleChange}/>
+                <input required placeholder="Username" type="text" name="username" value={username}
+                onChange={handleUsernameChange}/>
+            </label><br />
+            <label>
+                <input required placeholder="Type of Dog Breed" type="text" name="dogBreed" value={dogBreed}
+                onChange={handleDogBreedChange}/>
             </label><br />
             <label>                
-                <input placeholder="Type of Pup Activity: Outdoor or Social" type="text" name="activity" value={activityInput} onChange={handleActivityChange}/>
-                {errors.activity && (
-                    <span className="error-message">
-                        {errors.activity}
-                    </span>
-                )}
+                <input required placeholder="Type of Pup Activity: Outdoor, Social, or Pup Event" type="text" name="activity" value={activity} onChange={handleActivityChange}/>                
             </label><br />
             <label>                
-                <input placeholder="Zip Code for Search" type="text" name="zipCode" value={formData.zipCode}
-                onChange={handleChange}/>
-                {errors.zipCode && (
-                    <span className="error-message">
-                        {errors.zipCode}
-                    </span>
-                )}
+                <input required placeholder="Zip Code for Search" type="text" name="zipCode" value={zipCode}
+                onChange={handleZipCodeChange}/>                
             </label>
             </div>
         </form>
         </div>            
             <div className="input">
                 <h2>Review Your Search Input</h2>
-                <p>Pup's Name: {formData.pupName}</p>
-                <p>Type of Dog: {formData.dogType}</p>
-                <p>Type of Pup Activity: {activityInput}</p>
-                <p>Zip Code for Search: {formData.zipCode}</p>
+                <p>Pup's Name: {pupName}</p>
+                <p>Username: {username}</p>
+                <p>Type of Dog Breed: {dogBreed}</p>
+                <p>Type of Pup Activity: {activity}</p>
+                <p>Zip Code for Search: {zipCode}</p>
             </div>
             <div>
-                <button type="submit" onClick={submitSuccess}>Submit Form</button>
+                <button type="submit" onClick={handleSubmit}>Submit Form</button>
             </div>  
             <div>
                 <Link to="/idealInfo"><button>Continue to Pup Activity Info!</button></Link>             
             </div>
-            <ToastContainer />      
+            <ToastContainer />        
         </div>
     );
 };
