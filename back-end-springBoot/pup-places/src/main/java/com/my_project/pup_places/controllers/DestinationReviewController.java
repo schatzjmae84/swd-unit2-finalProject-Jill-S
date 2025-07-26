@@ -30,6 +30,23 @@ public class DestinationReviewController {
         return new ResponseEntity<>(newDestinationReview, HttpStatus.CREATED); // 201 Created
     }
 
+    // PUT method to update an existing destination review by its ID
+    // Corresponds to the endpoint: /api/doggyDestinations/destinations/{destinationId}/reviews/{reviewId}
+    @PutMapping(value = "/reviews/{reviewId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> updateDestinationReview(@PathVariable (value = "reviewId") int reviewId, @RequestBody DestinationReview updateddestinationReview) {
+    DestinationReview currentDestinationReview = destinationReviewRepository.findById(reviewId).orElse(null);
+        if (currentDestinationReview != null) {
+            currentDestinationReview.setName(updateddestinationReview.getName());
+            currentDestinationReview.setRating(updateddestinationReview.getRating());
+            currentDestinationReview.setReview(updateddestinationReview.getReview());
+            destinationReviewRepository.save(currentDestinationReview);
+            return new ResponseEntity<>(currentDestinationReview, HttpStatus.OK); // 200 OK
+        } else {
+            String response = "The review with the ID of " + reviewId + " does not exist.";
+            return new ResponseEntity<>(Collections.singletonMap("response", response), HttpStatus.NOT_FOUND); // 404 Not Found
+        }
+    }
+
     //DELETE method to delete a destination review by its ID
     // Corresponds to the endpoint: /api/doggyDestinations/destinations/{destinationId}/reviews/delete/{reviewId}
     @DeleteMapping(value = "/reviews/delete/{reviewId}", produces = MediaType.APPLICATION_JSON_VALUE)
