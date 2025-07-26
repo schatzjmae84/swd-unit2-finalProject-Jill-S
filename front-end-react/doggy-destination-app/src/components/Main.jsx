@@ -2,19 +2,24 @@ import { useState} from "react";
 import { useParams } from "react-router";
 import "./Form.css";
 import DestinationInfo from "./DestinationInfo";
+import { useNavigate } from "react-router";
 
-export default function Main() {    
+// Variable to hold the initial form state
+let initialForm = {
+    pupName: "",
+    username: "",
+    dogBreed: "",
+    activity: "",
+    zipCode: "",
+};
+
+const Main = () => {    
 
     const {pupPlaces} = useParams();
 
-    // Using destructuring to set up state for our Pup Place Participant Form
-    const [ form, setForm ] = useState({
-        pupName: "",
-        username: "",
-        dogBreed: "",
-        activity: "",
-        zipCode: "",
-    });
+    const [ form, setForm ] = useState(initialForm);
+
+    const navigate = useNavigate();  
 
     // Using the following handlers to update the corresponding form properties from state
     const handleUpdatePupName = (input) => {
@@ -61,6 +66,21 @@ export default function Main() {
             }
         });
     };
+
+    // Function to save the new form data
+    const saveNewForm = async form => {
+
+        await fetch('http://localhost:8080/api/pupPlaces/forms', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'                   
+                },
+                body: JSON.stringify(form),
+            });           
+        
+        navigate('/pupPlaces');
+    };        
     
     return (
 
@@ -83,10 +103,13 @@ export default function Main() {
                 updateUsername={handleUpdateUsername}
                 updateDogBreed={handleUpdateDogBreed}
                 updateActivity={handleUpdateActivity}
-                updateZipCode={handleUpdateZipCode} 
+                updateZipCode={handleUpdateZipCode}
+                saveNewForm={saveNewForm} 
                 form={form}
               />                       
         </div>
     );
 };
+
+export default Main;
 

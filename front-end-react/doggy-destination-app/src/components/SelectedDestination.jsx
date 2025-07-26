@@ -20,7 +20,8 @@ const SelectedDestination = () => {
 
     const destinationNames = {
         Outdoor: ["Willmore Dog Park", "Central Park Maplewood", "SLU Dog Park & Sculpture Garden"],
-        Social: ["Bar K St. Louis", "Zoomies Pet Cafe + Boutique", "Rockwell Beer Garden"]
+        Social: ["Bar K St. Louis", "Zoomies Pet Cafe + Boutique", "Rockwell Beer Garden"],
+        PupEvents: ["Yappy Hour at Le Meridien", "Sunday Funday! Dog Yoga at Third Wheel Brewing", "Summer Camp: We Love Doggos!"]
     };  
     
     const displayActivities = () => {
@@ -60,6 +61,7 @@ const SelectedDestination = () => {
                     <option value="">--Doggy Destinations--</option>
                     <option value="Outdoor">Outdoor Adventures</option>
                     <option value="Social">Social Settings for both of you!</option>
+                    <option value="PupEvents">Pup Events in the area</option>
                 </select> 
             </label>
             <div>

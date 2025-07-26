@@ -13,48 +13,49 @@ const DestinationInfo = (props) => {
     const [activity, setActivity] = useState("");
     const [zipCode, setZipCode] = useState("");
 
-    // Pup Name input handler (note e is the event object)
-    const handlePupNameChange = (e) => {
-        e.preventDefault();
-        let input = (e.target.value);
+    // Pup Name input handler 
+    const handlePupNameChange = (event) => {
+        event.preventDefault();
+        let input = (event.target.value);
         setPupName(input);
         props.updatePupName(input);
     };
 
     // Username input handler
-    const handleUsernameChange = (e) => {
-        e.preventDefault();
-        let input = (e.target.value);
+    const handleUsernameChange = (event) => {
+        event.preventDefault();
+        let input = (event.target.value);
         setUsername(input);
         props.updateUsername(input);
     };
 
     // Dog Breed input handler
-    const handleDogBreedChange = (e) => {
-        e.preventDefault();
-        let input = (e.target.value);
+    const handleDogBreedChange = (event) => {
+        event.preventDefault();
+        let input = (event.target.value);
         setDogBreed(input);
         props.updateDogBreed(input);
     };
 
     // Activity input handler
-    const handleActivityChange = (e) => {
-        e.preventDefault();
-        let input = (e.target.value);
+    const handleActivityChange = (event) => {
+        event.preventDefault();
+        let input = (event.target.value);
         setActivity(input);
         props.updateActivity(input);
     };
 
     // Zip Code input handler
-    const handleZipCodeChange = (e) => {
-        e.preventDefault();
-        let input = (e.target.value);
+    const handleZipCodeChange = (event) => {
+        event.preventDefault();
+        let input = (event.target.value);
         setZipCode(input);
         props.updateZipCode(input);
     };  
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    // Submit handler to validate form and save data
+    const handleSubmit = (event) => {
+        event.preventDefault();
         if (!pupName || !username || !dogBreed || !activity || !zipCode) {
             toast.error("Please, fill out all required fields!", {
                 position: "top-center",
@@ -64,6 +65,12 @@ const DestinationInfo = (props) => {
                 transition: Bounce
             });
         } else {
+            props.saveNewForm(props.form);
+            setPupName("");  // Clear the form fields after submission
+            setUsername("");
+            setDogBreed("");
+            setActivity("");
+            setZipCode("");
             toast.success("Thank you! You have successfully signed up for pupPerks!", {
                 position: "top-center",
                 autoClose: 3000,
@@ -86,18 +93,18 @@ const DestinationInfo = (props) => {
                 onChange={handlePupNameChange}/>
             </label><br />
             <label>                
-                <input required placeholder="Username" type="text" name="username" value={username}
+                <input required placeholder="Human Username" type="text" name="username" value={username}
                 onChange={handleUsernameChange}/>
             </label><br />
             <label>
-                <input required placeholder="Type of Dog Breed" type="text" name="dogBreed" value={dogBreed}
+                <input required placeholder="Dog Breed (please include size)" type="text" name="dogBreed" value={dogBreed}
                 onChange={handleDogBreedChange}/>
             </label><br />
             <label>                
                 <input required placeholder="Type of Pup Activity: Outdoor, Social, or Pup Event" type="text" name="activity" value={activity} onChange={handleActivityChange}/>                
             </label><br />
             <label>                
-                <input required placeholder="Zip Code for Search" type="text" name="zipCode" value={zipCode}
+                <input required placeholder="Zip Code for Activity Search" type="text" name="zipCode" value={zipCode}
                 onChange={handleZipCodeChange}/>                
             </label>
             </div>

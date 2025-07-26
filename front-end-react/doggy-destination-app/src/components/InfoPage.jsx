@@ -5,8 +5,6 @@ import { PupPics } from "./PupPics.js";
 import "react-image-gallery/styles/css/image-gallery.css";
 import "./InfoPage.css";
 
-/* Phase 3 of this project would include more JavaScript to filter the below destination information to only display what the user selected on the previous page.  Multiple info component pages will be included to handle each activity type's specific information*/
-
 const InfoPage = () => {
 
     const {doggyDestinations} = useParams();

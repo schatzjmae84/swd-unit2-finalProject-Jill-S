@@ -1,4 +1,4 @@
-
+// Pictures of pups to display in the Image Gallery on the InfoPage component
 export const PupPics = [
     {
         original: "https://images.unsplash.com/photo-1631897523547-1e714cb8432c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzV8fGRvZyUyMHBhcmtzfGVufDB8fDB8fHww",
