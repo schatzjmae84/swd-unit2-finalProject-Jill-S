@@ -18,11 +18,15 @@ const SelectedDestination = () => {
     const [ destination, setDestination] = useState([]); // Use of state to handle the mapping of the information for the chosen activity/destination type
     const [ hover, setHover ] = useState(false);  // Fun hover pup messages on included images
 
-    const destinationNames = {
-        Outdoor: ["Willmore Dog Park", "Central Park Maplewood", "SLU Dog Park & Sculpture Garden"],
-        Social: ["Bar K St. Louis", "Zoomies Pet Cafe + Boutique", "Rockwell Beer Garden"],
-        PupEvents: ["Yappy Hour at Le Meridien", "Sunday Funday! Dog Yoga at Third Wheel Brewing", "Summer Camp: We Love Doggos!"]
-    };  
+    const getActivityNames = async () => {
+        await fetch("http://localhost8080//api/idealInfo/activities/{activityId}")
+            .then((response) => response.json())
+            .then((data) => {
+                const activityNames = data.map((activity) => activity.name);
+                return activityNames;
+            });
+    }; 
+
     
     const displayActivities = () => {
         if (!activityType) {
@@ -32,7 +36,7 @@ const SelectedDestination = () => {
         setError("");
         setLoading(true)       
         setTimeout(() => {
-            setDestination(destinationNames[activityType]);
+            setDestination(getActivityNames[activityType]);
             setLoading(false)
         }, 2000);
     };
