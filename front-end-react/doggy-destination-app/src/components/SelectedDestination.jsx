@@ -2,11 +2,10 @@ import { useParams } from "react-router"
 import image from "../assets/pupPic1.jpg";
 import picture from "../assets/pupPic2.jpg";
 import dogPic from "../assets/pupPic4.jpg";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import RiseLoader from 'react-spinners/RiseLoader';
 import { Link } from "react-router";
 import "./SelectedDestination.css"
-
 
 const SelectedDestination = () => {
     
@@ -15,34 +14,27 @@ const SelectedDestination = () => {
     const [ activityType, setActivityType ] = useState(""); // Use of state to handle activity type changes in the drop menu
     const [ error, setError ] = useState("");  // Error handling if no activity is chosen
     const [ loading, setLoading ] = useState(false);
-    const [ activities, setActivities] = useState([]); // Use of state to handle the mapping of the information for the chosen activity/destination type
+    const [ activities, setActivities] = useState([]); // Use of state to handle activities fetched from the API based on the selected activity type
     const [ hover, setHover ] = useState(false);  // Fun hover pup messages on included images
 
-    const fetchActivity = () => {
+    const destinationNames = {
+        Outdoor: ["Willmore Dog Park", "Central Park Maplewood", "SLU Dog Park & Sculpture Garden"],
+        Social: ["Bar K St. Louis", "Zoomies Pet Cafe + Boutique", "Rockwell Beer Garden"],
+        PupEvents: ["Yappy Hour at Le Meridien", "Sunday Funday! Dog Yoga at Third Wheel Brewing", "Summer Camp: We Love Doggos!"],
+    };  
 
-        fetch(`http://localhost:8080//api/idealInfo/activities/${activityType}`, {
-            method: "GET",
-            headers: {
-                    'Content-Type': 'application/json'                                       
-                } 
-            }) 
-            .then((response) => response.json())
-            .then((data) => {
-                setActivities(data);
-                setLoading(true);
-            });            
-    
+    const displayActivities = () => {           
         if (!activityType) {
             setError("Please, select an activity to get started!");
             return;
         }
         setError("");
-        setLoading(true)       
+        setLoading(true);
         setTimeout(() => {
-            setActivities([activityType]);
-            setLoading(false)
+            setActivities(destinationNames[activityType]);
+            setLoading(false);
         }, 2000);
-    };
+    }; 
     
     const hoverData = "'I can't wait to get to the Dog Park!'";
     const hoverMessage = "'We love playing fetch with our BALL!'";
@@ -68,28 +60,25 @@ const SelectedDestination = () => {
                     <option value="">--Doggy Destinations--</option>
                     <option value="Outdoor">Outdoor Adventures</option>
                     <option value="Social">Social Settings for both of you!</option>  
-                    <option value="pupEvents">Pup Events in the area</option>    
+                    <option value="PupEvents">Pup Events in the area</option>    
                 </select> 
             </label>
             <div>
                 { loading ? <RiseLoader color="purple" loading={loading} /> :
-                <button onClick={fetchActivity}>Display Pup Activities!</button>}                
+                <button onClick={displayActivities}>Display Pup Activities!</button>}                
             </div>
-            {error && <p style={{color: "red"}}>{error}</p>} 
+                {error && <p style={{color: "red"}}>{error}</p>} 
 
-            {activities.length > 0 && (                                               
+                {activities.length > 0 && (                                               
                 <div className="selected">
                     <h2>Here are the Doggy Destinations in the category you selected:</h2>
                     <ul>
-                        {activities.map(activity => (
-                            <li key={activity.id} value={activity.id}>
-                            <Link to={`/doggyDestinations/${activity.id}`}>{activity.name}</Link>
-                            </li>
-                        ))}                           
-                    </ul>
+                        {activities.map((activity, index) => (
+                            <Link to="/doggyDestinations"><li key={index}>{activity}</li></Link>
+                        ))} 
+                    </ul>                          
                 </div>
-            )}
-                                   
+                )}                                  
               <div className="flex-container">
                 <div onMouseEnter={(event) => onHover(event)}
                     onMouseLeave={(event) => onHoverOver(event)}>              
