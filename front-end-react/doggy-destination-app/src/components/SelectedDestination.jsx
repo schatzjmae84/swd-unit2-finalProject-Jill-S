@@ -1,4 +1,4 @@
-import { useParams } from "react-router"
+import { data, useParams } from "react-router"
 import image from "../assets/pupPic1.jpg";
 import picture from "../assets/pupPic2.jpg";
 import dogPic from "../assets/pupPic4.jpg";
@@ -10,14 +10,16 @@ import "./SelectedDestination.css"
 const SelectedDestination = () => {
     
     const {idealInfo} = useParams();
+    const {destinationId} = useParams(); // Use of URL params to get the destination ID
 
     const [ activityType, setActivityType ] = useState(""); // Use of state to handle activity type changes in the drop menu
     const [ error, setError ] = useState("");  // Error handling if no activity is chosen
     const [ loading, setLoading ] = useState(false);
     const [ activities, setActivities] = useState([]); // Use of state to handle activities fetched from the API based on the selected activity type
     const [ hover, setHover ] = useState(false);  // Fun hover pup messages on included images
+    const [ destination, setDestination ] = useState(""); // Use of state to handle the destination ID from the URL params
 
-    const destinationNames = {
+    const destinationNames = { 
         Outdoor: ["Willmore Dog Park", "Central Park Maplewood", "SLU Dog Park & Sculpture Garden"],
         Social: ["Bar K St. Louis", "Zoomies Pet Cafe + Boutique", "Rockwell Beer Garden"],
         PupEvents: ["Yappy Hour at Le Meridien", "Sunday Funday! Dog Yoga at Third Wheel Brewing", "Summer Camp: We Love Doggos!"],
@@ -48,7 +50,25 @@ const SelectedDestination = () => {
     const onHoverOver = (event) => {
         event.preventDefault();
         setHover(false);
-    };    
+    };  
+    
+    const fetchDestination = () => {
+        fetch(`http://localhost:8080/api/doggyDestinations/destinations/${destinationId}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*"
+            }
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            if (data && data.length > 0) {
+                setDestination(data);
+            } else {
+                setError("No activities found for the selected type.");
+            }
+        });
+    }
     
     return (
         <div className="selected-destination">
@@ -74,7 +94,9 @@ const SelectedDestination = () => {
                     <h2>Here are the Doggy Destinations in the category you selected:</h2>
                     <ul>
                         {activities.map((activity, index) => (
-                            <Link to="/doggyDestinations"><li key={index}>{activity}</li></Link>
+                            <li key={index}>
+                            <Link to="/doggyDestinations" onClick={fetchDestination}>{activity}</Link>
+                            </li>
                         ))} 
                     </ul>                          
                 </div>
