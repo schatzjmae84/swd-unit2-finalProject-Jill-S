@@ -6,23 +6,24 @@ import { useState } from "react";
 import RiseLoader from 'react-spinners/RiseLoader';
 import { Link } from "react-router";
 import "./SelectedDestination.css"
+import InfoPage from "./InfoPage";
 
 const SelectedDestination = () => {
     
-    const {idealInfo} = useParams();
-    const {destinationId} = useParams(); // Use of URL params to get the destination ID
-
+    const { idealInfo } = useParams();
+    const { destinationId } = useParams();
+    
     const [ activityType, setActivityType ] = useState(""); // Use of state to handle activity type changes in the drop menu
     const [ error, setError ] = useState("");  // Error handling if no activity is chosen
     const [ loading, setLoading ] = useState(false);
-    const [ activities, setActivities] = useState([]); // Use of state to handle activities fetched from the API based on the selected activity type
+    const [ activities, setActivities] = useState([]); 
     const [ hover, setHover ] = useState(false);  // Fun hover pup messages on included images
-    const [ destination, setDestination ] = useState(""); // Use of state to handle the destination ID from the URL params
+    const [ destination, setDestination ] = useState([]); // Use of state to handle the destination ID from the URL params
 
-    const destinationNames = { 
-        Outdoor: ["Willmore Dog Park", "Central Park Maplewood", "SLU Dog Park & Sculpture Garden"],
+    const destinationNames = {
+        Outdoor: [ "Willmore Dog Park", "Central Park Maplewood", "SLU Dog Park & Sculpture Garden"],
         Social: ["Bar K St. Louis", "Zoomies Pet Cafe + Boutique", "Rockwell Beer Garden"],
-        PupEvents: ["Yappy Hour at Le Meridien", "Sunday Funday! Dog Yoga at Third Wheel Brewing", "Summer Camp: We Love Doggos!"],
+        PupEvents: ["Yappy Hour at Le Meridien", "Sunday Funday! Dog Yoga at Third Wheel Brewing", "Summer Camp: We Love Doggos!"]
     };  
 
     const displayActivities = () => {           
@@ -52,24 +53,21 @@ const SelectedDestination = () => {
         setHover(false);
     };  
     
-    const fetchDestination = () => {
-        fetch(`http://localhost:8080/api/doggyDestinations/destinations/${destinationId}`, {
-            method: "GET",
+    const fetchDestination = async () => {
+        
+        let response = await fetch(`http://localhost:8080/api/doggyDestinations/destinations/${destinationId}`, {        
             headers: {
                 "Content-Type": "application/json",
                 "Access-Control-Allow-Origin": "*"
             }
-        })
-        .then((response) => response.json())
-        .then((data) => {
-            if (data && data.length > 0) {
-                setDestination(data);
-            } else {
-                setError("No activities found for the selected type.");
-            }
         });
-    }
-    
+        let data = await response.json();
+        let destinationData = data.map(obj => {
+            return { ...obj };
+        });
+        setDestination(destinationData);
+    };        
+
     return (
         <div className="selected-destination">
             <h2>{idealInfo}</h2>
@@ -95,7 +93,7 @@ const SelectedDestination = () => {
                     <ul>
                         {activities.map((activity, index) => (
                             <li key={index}>
-                            <Link to="/doggyDestinations" onClick={fetchDestination}>{activity}</Link>
+                            <Link to={`/doggyDestinations/${destinationId}`} value={destination} onClick={fetchDestination}>{activity}</Link>
                             </li>
                         ))} 
                     </ul>                          
@@ -130,6 +128,7 @@ const SelectedDestination = () => {
                 )}
                 </div>             
             </div><br />
+            {/* <InfoPage destination={destination} /> */}
         </div>        
     );
 };

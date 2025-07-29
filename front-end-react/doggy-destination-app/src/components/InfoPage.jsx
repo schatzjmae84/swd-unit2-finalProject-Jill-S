@@ -5,24 +5,26 @@ import { PupPics } from "./PupPics.js";
 import "react-image-gallery/styles/css/image-gallery.css";
 import "./InfoPage.css";
 
-const InfoPage = ({ data }) => {
+const InfoPage = ( { destination } ) => {
 
-    const {doggyDestinations} = useParams();
+    const { destinationId } = useParams();
+    const [ info ] = [...destination].filter((item) => item.id == destinationId);
+    
 
     return (
 
         <div> 
-            <h2>{doggyDestinations}</h2>
+            <h2>{destinationId}</h2>
             <div className="container">
                 <div className="item0">
-                <h2>{data.activity}</h2>
+                <h2>{info.activity}</h2>
                 </div>
                 <div className="item1">
-                    <h3>{data.name}</h3>
-                    <h4>{data.rating}</h4>
-                        <p>{data.description}</p>
-                        <p>{data.address}</p>
-                    <Link to={data.website}>{data.name} Website</Link>                                
+                    <h3>{info.name}</h3>
+                    <h4>{info.rating}</h4>
+                        <p>{info.description}</p>
+                        <p>{info.address}</p>
+                    <Link to={info.website}>{info.name} Website</Link>                                
                 </div>
             </div>
             <div className="image-gallery">
