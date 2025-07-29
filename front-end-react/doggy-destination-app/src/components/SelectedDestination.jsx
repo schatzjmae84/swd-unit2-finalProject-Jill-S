@@ -65,7 +65,7 @@ const SelectedDestination = () => {
         let destinationData = data.map(obj => {
             return { ...obj };
         });
-        setDestination(destinationData);
+        setDestination(destinationData);        
     };        
 
     return (
