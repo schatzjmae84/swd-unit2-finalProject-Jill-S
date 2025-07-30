@@ -18,7 +18,7 @@ const SelectedDestination = () => {
     const [ loading, setLoading ] = useState(false);
     const [ activities, setActivities] = useState([]); 
     const [ hover, setHover ] = useState(false);  // Fun hover pup messages on included images
-    const [ destination, setDestination ] = useState([]); // Use of state to handle the destination ID from the URL params
+    const [ allDestinations, setAllDestinations ] = useState([]); // Use of state to handle the destination ID from the URL params
 
     const destinationNames = {
         Outdoor: [ "Willmore Dog Park", "Central Park Maplewood", "SLU Dog Park & Sculpture Garden"],
@@ -55,18 +55,24 @@ const SelectedDestination = () => {
     
     const fetchDestination = async () => {
         
-        let response = await fetch(`http://localhost:8080/api/doggyDestinations/destinations/${destinationId}`, {        
+        await fetch(`http://localhost:8080/api/doggyDestinations/destinations/${destinationId}`, {        
             headers: {
                 "Content-Type": "application/json",
                 "Access-Control-Allow-Origin": "*"
             }
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            if (data && data.length > 0) {
+                setAllDestinations(data);
+            } else {
+                setError("No destination found for the selected ID.");
+            }
+            allDestinations.map((dest) => (
+                <InfoPage key={dest.id} allDestinations={allDestinations} />
+            ));
         });
-        let data = await response.json();
-        let destinationData = data.map(obj => {
-            return { ...obj };
-        });
-        setDestination(destinationData);        
-    };        
+    }
 
     return (
         <div className="selected-destination">
@@ -93,7 +99,7 @@ const SelectedDestination = () => {
                     <ul>
                         {activities.map((activity, index) => (
                             <li key={index}>
-                            <Link to={`/doggyDestinations/${destinationId}`} value={destination} onClick={fetchDestination}>{activity}</Link>
+                            <Link to={`/doggyDestinations/${destinationId}`} onClick={fetchDestination}>{activity}</Link>
                             </li>
                         ))} 
                     </ul>                          
@@ -128,7 +134,6 @@ const SelectedDestination = () => {
                 )}
                 </div>             
             </div><br />
-            {/* <InfoPage destination={destination} /> */}
         </div>        
     );
 };

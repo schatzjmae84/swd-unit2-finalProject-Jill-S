@@ -1,5 +1,5 @@
 import { useParams } from "react-router"; 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router";
 import ReactImageGallery from "react-image-gallery";
 import { PupPics } from "./PupPics.js";
@@ -7,11 +7,20 @@ import { ToastContainer, toast, Bounce } from "react-toastify";
 import "react-image-gallery/styles/css/image-gallery.css";
 import "./InfoPage.css";
 
-const InfoPage = ( { destination } ) => {
+const InfoPage = ( { allDestinations } ) => {
 
     const { destinationId } = useParams();
-    const [ info ] = [...destination].filter((item) => item.id == destinationId);
-    
+    const [ info, setInfo ] = useState([]);
+
+    useEffect(() => {
+        if (allDestinations && allDestinations.length > 0) {
+            const selectDestination = allDestinations.find(
+                (dest) => String(dest.id) === String(destinationId)
+            );
+            setInfo(selectDestination);
+        }
+    }, [allDestinations, destinationId]);
+
     const [ reviewData, setReviewData ] = useState({
         name: "",
         rating: "",
@@ -36,7 +45,16 @@ const InfoPage = ( { destination } ) => {
                 draggable: true,
                 transition: Bounce,
             });            
-        } else {}
+        } else {
+            // Submit the review
+            toast.success("Thank you for your review!", {
+                position: "top-center",
+                autoClose: 3000,
+                closeOnClick: true,
+                draggable: true,
+                transition: Bounce,
+            });
+        }
     };
 
     return (
@@ -71,7 +89,7 @@ const InfoPage = ( { destination } ) => {
                         onChange={handleReviewChange} />
                         <textarea />
                     </label>                   
-                    <button type="submit">Submit Review</button>
+                    <button type="submit" onClick={handleReviewSubmit}>Submit Review</button>
                 </form>
             </div>
 
