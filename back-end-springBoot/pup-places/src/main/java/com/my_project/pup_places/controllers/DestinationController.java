@@ -19,8 +19,8 @@ public class DestinationController {
     @Autowired
     DestinationRepository destinationRepository;
 
-    // GET method to retrieve a single destination by its ID
-    // Corresponds to the endpoint: /api/doggyDestinations/destinations
+    // GET method to retrieve a single destination by its name
+    // Corresponds to the endpoint: /api/doggyDestinations/destinations/{name}
     @GetMapping(value = "/destinations", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getName(@RequestParam(value = "name") String name) {
         Destination currentDestination = destinationRepository.findByName(name).orElse(null);

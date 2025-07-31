@@ -12,14 +12,14 @@ import java.util.Collections;
 
 @CrossOrigin(origins = "*", maxAge = 3600) // Allow cross-origin requests from any origin
 @RestController
-@RequestMapping("/api/doggyDestinations/destinations/{destinationId}") // Base URL for the API
+@RequestMapping("/api/doggyDestinations/destinations/{name}") // Base URL for the API
 public class DestinationReviewController {
 
     @Autowired
     DestinationReviewRepository destinationReviewRepository;
 
     // POST method to create a new destination review
-    // Corresponds to the endpoint: /api/doggyDestinations/destinations/{destinationId}/reviews
+    // Corresponds to the endpoint: /api/doggyDestinations/destinations/{name}/reviews
     @PostMapping(value = "/reviews", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createDestinationReview(@RequestBody DestinationReview destinationReview) {
         DestinationReview newDestinationReview = new DestinationReview(
