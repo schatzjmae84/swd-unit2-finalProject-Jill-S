@@ -71,14 +71,13 @@ const Main = () => {
     const saveNewForm = async form => {
 
         await fetch('http://localhost:8080/api/pupPlaces/forms', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*'                   
-                },
-                body: JSON.stringify(form),
-            });           
-        
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'                   
+            },
+            body: JSON.stringify(form),
+        });        
         navigate('/pupPlaces');
     };        
     

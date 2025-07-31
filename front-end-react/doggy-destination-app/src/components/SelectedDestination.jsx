@@ -5,13 +5,13 @@ import dogPic from "../assets/pupPic4.jpg";
 import { useState } from "react";
 import RiseLoader from 'react-spinners/RiseLoader';
 import { Link } from "react-router";
-import "./SelectedDestination.css"
+import "./styling/SelectedDestination.css"
 import InfoPage from "./InfoPage";
 
 const SelectedDestination = () => {
     
     const { idealInfo } = useParams();
-    const { destinationId } = useParams();
+    const { name } = useParams();
     
     const [ activityType, setActivityType ] = useState(""); // Use of state to handle activity type changes in the drop menu
     const [ error, setError ] = useState("");  // Error handling if no activity is chosen
@@ -24,8 +24,8 @@ const SelectedDestination = () => {
         Outdoor: [ "Willmore Dog Park", "Central Park Maplewood", "SLU Dog Park & Sculpture Garden"],
         Social: ["Bar K St. Louis", "Zoomies Pet Cafe + Boutique", "Rockwell Beer Garden"],
         PupEvents: ["Yappy Hour at Le Meridien", "Sunday Funday! Dog Yoga at Third Wheel Brewing", "Summer Camp: We Love Doggos!"]
-    };  
-
+    }; 
+    
     const displayActivities = () => {           
         if (!activityType) {
             setError("Please, select an activity to get started!");
@@ -54,8 +54,8 @@ const SelectedDestination = () => {
     };  
     
     const fetchDestination = async () => {
-        
-        await fetch(`http://localhost:8080/api/doggyDestinations/destinations/${destinationId}`, {        
+
+        await fetch(`http://localhost:8080/api/doggyDestinations/destinations/${name}`, {
             headers: {
                 "Content-Type": "application/json",
                 "Access-Control-Allow-Origin": "*"
@@ -65,11 +65,12 @@ const SelectedDestination = () => {
         .then((data) => {
             if (data && data.length > 0) {
                 setAllDestinations(data);
+                console.log(data);
             } else {
                 setError("No destination found for the selected ID.");
-            }
+            }                  
             allDestinations.map((dest) => (
-                <InfoPage key={dest.id} allDestinations={allDestinations} />
+                <InfoPage key={dest.name} allDestinations={allDestinations} />
             ));
         });
     }
@@ -99,7 +100,7 @@ const SelectedDestination = () => {
                     <ul>
                         {activities.map((activity, index) => (
                             <li key={index}>
-                            <Link to={`/doggyDestinations/${destinationId}`} onClick={fetchDestination}>{activity}</Link>
+                            <Link to={`/doggyDestinations/${name}`} onClick={fetchDestination}>{activity}</Link>
                             </li>
                         ))} 
                     </ul>                          

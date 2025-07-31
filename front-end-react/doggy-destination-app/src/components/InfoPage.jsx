@@ -1,25 +1,27 @@
-import { useParams } from "react-router"; 
+import { useNavigate, useParams } from "react-router"; 
 import { useState, useEffect } from "react";
 import { Link } from "react-router";
 import ReactImageGallery from "react-image-gallery";
 import { PupPics } from "./PupPics.js";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import "react-image-gallery/styles/css/image-gallery.css";
-import "./InfoPage.css";
+import "./styling/InfoPage.css";
 
 const InfoPage = ( { allDestinations } ) => {
 
-    const { destinationId } = useParams();
+    const { name } = useParams();
     const [ info, setInfo ] = useState([]);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (allDestinations && allDestinations.length > 0) {
             const selectDestination = allDestinations.find(
-                (dest) => String(dest.id) === String(destinationId)
+                (dest) => (dest.name) == (name)
             );
             setInfo(selectDestination);
         }
-    }, [allDestinations, destinationId]);
+    }, [allDestinations, name]);
 
     const [ reviewData, setReviewData ] = useState({
         name: "",
@@ -35,6 +37,20 @@ const InfoPage = ( { allDestinations } ) => {
         }));
     };
 
+    const saveNewReview = async review => {
+
+        await fetch(`http://localhost:8080/api/doggyDestinations/destinations/${name}/reviews`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*"
+            },
+            body: JSON.stringify(review)
+        });
+        navigate("/doggyDestinations/" + name);
+
+    };
+
     const handleReviewSubmit = (event) => {
         event.preventDefault();
         if (!reviewData.name || !reviewData.rating || !reviewData.review) {
@@ -46,7 +62,12 @@ const InfoPage = ( { allDestinations } ) => {
                 transition: Bounce,
             });            
         } else {
-            // Submit the review
+            saveNewReview(reviewData);
+            setReviewData({
+                name: "",
+                rating: "",
+                review: ""
+            });
             toast.success("Thank you for your review!", {
                 position: "top-center",
                 autoClose: 3000,
@@ -60,7 +81,7 @@ const InfoPage = ( { allDestinations } ) => {
     return (
 
         <div> 
-            <h2>{destinationId}</h2>
+            <h2>{name}</h2>
             <div className="container">
                 <div className="item0">
                 <h2>{info.activity}</h2>
@@ -86,11 +107,26 @@ const InfoPage = ( { allDestinations } ) => {
                     </label>
                     <label>
                         <textarea required placeholder="Let us know what you thought!" rows="4" cols="50" name="review" value={reviewData.review} 
-                        onChange={handleReviewChange} />
-                        <textarea />
+                        onChange={handleReviewChange} />                        
                     </label>                   
                     <button type="submit" onClick={handleReviewSubmit}>Submit Review</button>
                 </form>
+            </div>
+                
+            <div>
+                <h3>Reviews:</h3>
+                <ul>
+                {reviewData && reviewData.length > 0 ? (
+                    reviewData.map((review, index) => (
+                        <li key={index} className="review">
+                            <strong>{review.name}</strong> rated it a {review.rating} out of 5
+                            {review.review}
+                        </li>
+                    ))                    
+                ) : (
+                    <p>No reviews yet. Be the first to leave a review!</p>
+                )}
+                </ul>
             </div>
 
             <div className="image-gallery">
