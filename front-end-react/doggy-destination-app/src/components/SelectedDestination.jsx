@@ -1,40 +1,43 @@
-import { useParams } from "react-router"
+import { data, useParams } from "react-router"
 import image from "../assets/pupPic1.jpg";
 import picture from "../assets/pupPic2.jpg";
 import dogPic from "../assets/pupPic4.jpg";
 import { useState } from "react";
 import RiseLoader from 'react-spinners/RiseLoader';
 import { Link } from "react-router";
-import "./SelectedDestination.css"
-
+import "./styling/SelectedDestination.css"
+import InfoPage from "./InfoPage";
 
 const SelectedDestination = () => {
-
-    const {idealInfo} = useParams();
-
+    
+    const { idealInfo } = useParams();
+    const { name } = useParams();
+    
     const [ activityType, setActivityType ] = useState(""); // Use of state to handle activity type changes in the drop menu
     const [ error, setError ] = useState("");  // Error handling if no activity is chosen
     const [ loading, setLoading ] = useState(false);
-    const [ destination, setDestination] = useState([]); // Use of state to handle the mapping of the information for the chosen activity/destination type
+    const [ activities, setActivities] = useState([]); 
     const [ hover, setHover ] = useState(false);  // Fun hover pup messages on included images
+    const [ allDestinations, setAllDestinations ] = useState([]); // Use of state to handle the destination ID from the URL params
 
     const destinationNames = {
-        Outdoor: ["Willmore Dog Park", "Central Park Maplewood", "SLU Dog Park & Sculpture Garden"],
-        Social: ["Bar K St. Louis", "Zoomies Pet Cafe + Boutique", "Rockwell Beer Garden"]
-    };  
+        Outdoor: [ "Willmore Dog Park", "Central Park Maplewood", "SLU Dog Park & Sculpture Garden"],
+        Social: ["Bar K St. Louis", "Zoomies Pet Cafe + Boutique", "Rockwell Beer Garden"],
+        PupEvents: ["Yappy Hour at Le Meridien", "Sunday Funday! Dog Yoga at Third Wheel Brewing", "Summer Camp: We Love Doggos!"]
+    }; 
     
-    const displayActivities = () => {
+    const displayActivities = () => {           
         if (!activityType) {
             setError("Please, select an activity to get started!");
             return;
         }
         setError("");
-        setLoading(true)       
+        setLoading(true);
         setTimeout(() => {
-            setDestination(destinationNames[activityType]);
-            setLoading(false)
+            setActivities(destinationNames[activityType]);
+            setLoading(false);
         }, 2000);
-    };
+    }; 
     
     const hoverData = "'I can't wait to get to the Dog Park!'";
     const hoverMessage = "'We love playing fetch with our BALL!'";
@@ -48,8 +51,30 @@ const SelectedDestination = () => {
     const onHoverOver = (event) => {
         event.preventDefault();
         setHover(false);
-    };    
+    };  
     
+    const fetchDestination = async () => {
+
+        await fetch(`http://localhost:8080/api/doggyDestinations/destinations/${name}`, {
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*"
+            }
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            if (data && data.length > 0) {
+                setAllDestinations(data);
+                console.log(data);
+            } else {
+                setError("No destination found for the selected ID.");
+            }                  
+            allDestinations.map((dest) => (
+                <InfoPage key={dest.name} allDestinations={allDestinations} />
+            ));
+        });
+    }
+
     return (
         <div className="selected-destination">
             <h2>{idealInfo}</h2>
@@ -59,26 +84,28 @@ const SelectedDestination = () => {
                 <select className="drop-menu" value={activityType} onChange={(event) => setActivityType(event.target.value)}>
                     <option value="">--Doggy Destinations--</option>
                     <option value="Outdoor">Outdoor Adventures</option>
-                    <option value="Social">Social Settings for both of you!</option>
+                    <option value="Social">Social Settings for both of you!</option>  
+                    <option value="PupEvents">Pup Events in the area</option>    
                 </select> 
             </label>
             <div>
                 { loading ? <RiseLoader color="purple" loading={loading} /> :
                 <button onClick={displayActivities}>Display Pup Activities!</button>}                
             </div>
-            {error && <p style={{color: "red"}}>{error}</p>} 
+                {error && <p style={{color: "red"}}>{error}</p>} 
 
-            {destination.length > 0 && (                                               
+                {activities.length > 0 && (                                               
                 <div className="selected">
                     <h2>Here are the Doggy Destinations in the category you selected:</h2>
                     <ul>
-                        {destination.map((dest, index) => (
-                            <Link to="/doggyDestinations"><li key={index}>{dest}</li></Link>
-                        ))}              
-                    </ul>
+                        {activities.map((activity, index) => (
+                            <li key={index}>
+                            <Link to={`/doggyDestinations/${name}`} onClick={fetchDestination}>{activity}</Link>
+                            </li>
+                        ))} 
+                    </ul>                          
                 </div>
-            )}                                                  
-                                   
+                )}                                  
               <div className="flex-container">
                 <div onMouseEnter={(event) => onHover(event)}
                     onMouseLeave={(event) => onHoverOver(event)}>              

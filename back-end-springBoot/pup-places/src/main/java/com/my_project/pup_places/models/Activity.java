@@ -11,6 +11,9 @@ public class Activity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(name = "name")
+    private String name;
+
     @Column(name="activity_one")
     private String activityOne;
 
@@ -20,7 +23,8 @@ public class Activity {
     @Column(name = "activity_three")
     private String activityThree;
 
-    public Activity(String activityOne, String activityTwo, String activityThree) {
+    public Activity(String name, String activityOne, String activityTwo, String activityThree) {
+        this.name = name;
         this.activityOne = activityOne;
         this.activityTwo = activityTwo;
         this.activityThree = activityThree;
@@ -30,6 +34,14 @@ public class Activity {
 
     public int getId() {
         return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getActivityOne() {
@@ -58,7 +70,7 @@ public class Activity {
 
     @Override
     public String toString() {
-        return activityOne + ", " + activityTwo + ", " + activityThree;
+        return name + ":" + activityOne + ", " + activityTwo + ", " + activityThree;
     }
 
     @Override

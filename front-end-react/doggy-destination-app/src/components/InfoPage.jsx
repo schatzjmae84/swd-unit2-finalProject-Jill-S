@@ -1,65 +1,140 @@
-import { useParams } from "react-router"; 
+import { useNavigate, useParams } from "react-router"; 
+import { useState, useEffect } from "react";
 import { Link } from "react-router";
 import ReactImageGallery from "react-image-gallery";
 import { PupPics } from "./PupPics.js";
+import { ToastContainer, toast, Bounce } from "react-toastify";
 import "react-image-gallery/styles/css/image-gallery.css";
-import "./InfoPage.css";
+import "./styling/InfoPage.css";
 
-/* Phase 3 of this project would include more JavaScript to filter the below destination information to only display what the user selected on the previous page.  Multiple info component pages will be included to handle each activity type's specific information*/
+const InfoPage = ( { allDestinations } ) => {
 
-const InfoPage = () => {
+    const { name } = useParams();  // Get the destination name from the URL parameters
+    const [ info, setInfo ] = useState([]);  // State to hold the destination information
 
-    const {doggyDestinations} = useParams();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (allDestinations && allDestinations.length > 0) {
+            const selectDestination = allDestinations.find(
+                (dest) => (dest.name) == (name)
+            );
+            setInfo(selectDestination);
+        }
+    }, [allDestinations, name]);
+
+    const [ reviews, setReviews ] = useState([]);  // State to hold the reviews
+    const [ reviewData, setReviewData ] = useState({
+        name: "",
+        rating: "",
+        review: ""
+    });
+
+    const handleReviewChange = (event) => {
+        const { name, value } = event.target;
+        setReviewData((prevData) => ({
+            ...prevData,
+            [name]: value
+        }));
+    };
+
+    const handleAddReview = (reviews) => {
+        setReviews((prevReviews) => [ ...prevReviews, reviews]);
+    };
+
+    const saveNewReview = async review => {
+
+        await fetch(`http://localhost:8080/api/doggyDestinations/destinations/${name}/reviews`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*"
+            },
+            body: JSON.stringify(review)
+        });
+        navigate("/doggyDestinations/" + name);
+
+    };
+
+    const handleReviewSubmit = (event) => {
+        event.preventDefault();
+        if (!reviewData.name || !reviewData.rating || !reviewData.review) {
+            toast.error("Please, fill out all fields before submitting your review.", {
+                position: "top-center",
+                autoClose: 3000,
+                closeOnClick: true,
+                draggable: true,
+                transition: Bounce,
+            });            
+        } else {
+            handleAddReview(reviewData);  // Add the new review to the state and update the UI
+            saveNewReview(reviewData);  // Save the new review to the database            
+            setReviewData({
+                name: "",
+                rating: "",
+                review: ""
+            });
+            toast.success("Thank you for your review!", {
+                position: "top-center",
+                autoClose: 3000,
+                closeOnClick: true,
+                draggable: true,
+                transition: Bounce,
+            });
+        }
+    };
 
     return (
 
         <div> 
-            <h2>{doggyDestinations}</h2>
+            <h2>{name}</h2>
             <div className="container">
                 <div className="item0">
-                <h2>Outdoor Pup Places:</h2>
+                <h2>{info.activity}</h2>
                 </div>
                 <div className="item1">
-                    <h3>Willmore Dog Park</h3>
-                        <p>Large area with a beautiful dog park, ponds, picnic spots, and play areas.</p>
-                        <p>7200 Hampton Ave, St. Louis, MO 63109</p>
-                        <Link to="https://www.stlouis-mo.gov/government/departments/parks/parks/browse-parks/view-park.cfm?parkID=93&parkName=Willmore">Willmore Dog Park Website</Link>        
-                </div>
-                <div className="item2">
-                    <h3>Central Park Maplewood</h3>
-                        <p>This is a membership only dog park!  Memberships are annual and must be renewed each year.</p>
-                        <p>7461 Elm Ave, Maplewood, MO 63143</p>
-                        <Link to="https://www.maplewoodmo.gov/government/departments/dog_park/index.php">Central Park Maplewood Website</Link>
-                </div>
-                <div className="item3">
-                    <h3>SLU Dog Park & Sculpture Garden</h3>
-                        <p>A beautiful park with great sculptures and lots of space for your pup to run and play!</p>
-                        <p>1 N. Grand Blvd, St. Louis, MO 63103</p>
-                        <p>No Website Available</p>
-                </div>
-                <div className="item4"> 
-                 <h2>Social Scenes for Pup and People:</h2> 
-                </div>                             
-                <div className="item5">                                        
-                    <h3>Bar K St. Louis</h3>
-                        <p>A pup friendly bar that has food, drinks, and hosts local events for you and your pup!</p>
-                        <p>4565 McRee Ave, St. Louis, MO 63110</p>
-                        <Link to="https://barkdogbar.com/locations/st-louis-mo/">Bar K Dog Bar Website</Link>
-                </div>
-
-                <div className="item6">
-                    <h3>Zoomies Pet Cafe + Boutique</h3>
-                        <p>Good food, good coffee, fun pup treats and trinkets in the boutique, and a fun outdoor area for the pups to play while you relax!</p>
-                        <p>5838 Macklind Ave, St. Louis, MO 63109</p>
-                        <Link to="https://www.zoomiespetcafe.com/eat-drink-play">Zoomies Pet Cafe Website</Link>
-                </div>
-                <div className="item7">
-                    <h3>Rockwell Beer Garden</h3>
-                        <p>Pizza, pups, and pints!  All located in wonderful Francis Park!</p>
-                        <p>5300 Donovan Ave, St. Louis, MO, 63109</p>
-                        <Link to="https://www.rockwellbeer.com/francis-park">Rockwell Beer Garden Website</Link>
+                    <h3>{info.name}</h3>
+                    <h4>{info.rating}</h4>
+                        <p>{info.description}</p>
+                        <p>{info.address}</p>
+                    <Link to={info.website}>{info.name} Website</Link>                                
                 </div>
             </div>
+            <div>
+                <form className="review-form">
+                    <h2>Did you check out one of our Doggy Destinations?? Leave a Review and tell us what you thought!!</h2>
+                    <label>
+                        <input required placeholder="Name" type="text" name="name" value={reviewData.name} 
+                        onChange={handleReviewChange} />
+                    </label>
+                    <label>
+                        <input required placeholder="Rating (1-5)" type="number" name="rating" value={reviewData.rating}
+                        onChange={handleReviewChange} min="1" max="5" />
+                    </label>
+                    <label>
+                        <textarea required placeholder="Let us know what you thought!" rows="4" cols="50" name="review" value={reviewData.review} 
+                        onChange={handleReviewChange} />                        
+                    </label>                   
+                    <button type="submit" onClick={handleReviewSubmit}>Submit Review</button>
+                </form>
+            </div>                
+            <div>
+                <h2>Reviews:</h2>
+                <ul>
+                {reviews && reviews.length > 0 ? (
+                    reviews.map((review, index) => (
+                        <li key={index} className="review">
+                            <strong>{review.name}</strong> rated this Doggy Destination with a {review.rating} out of 5. <br />
+                            Review:
+                            {review.review}
+                        </li>
+                    ))                    
+                ) : (
+                    <p>No reviews yet. Be the first to leave a review!</p>
+                )}
+                </ul>
+            </div>
+
             <div className="image-gallery">
                 <div className="image-title">
                     <h2>Thank you for visiting the Doggy Destination App!</h2>
@@ -71,6 +146,7 @@ const InfoPage = () => {
                      />
                 </div>
             </div>
+            <ToastContainer />
         </div>
     )
 };
