@@ -28,3 +28,46 @@
   }
 }
 
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;    
+}
+
+.review-form {
+    min-width: 80%;   
+    margin: 0.5vw;
+    padding: 1vw;
+    border: double;
+    border-radius: 10px;
+}
+
+.review-form h2 {
+    display: block;
+    text-align: center;
+    margin: 0 0 2vh 0;
+    border: 0;
+    border-radius: 5px;
+    background-color: rgb(238, 220, 220);
+    
+}
+
+.review-form input, textarea {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 0.9vw 0;
+    border: 0;
+    border-radius: 5px;
+    font-size: 20px;
+    background-color: rgb(238, 220, 220);
+}
+
+button {
+    padding: 10px;
+    margin: 1vw;
+    cursor: pointer;
+    color: blue;
+    background-color: aliceblue;
+}
+

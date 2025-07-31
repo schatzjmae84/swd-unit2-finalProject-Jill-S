@@ -1,6 +1,6 @@
 import { useState} from "react";
 import { useParams } from "react-router";
-import "./Form.css";
+import "../styling/Form.css";
 import DestinationInfo from "./DestinationInfo";
 import { useNavigate } from "react-router";
 

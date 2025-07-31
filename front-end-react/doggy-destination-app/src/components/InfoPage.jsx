@@ -9,8 +9,8 @@ import "./styling/InfoPage.css";
 
 const InfoPage = ( { allDestinations } ) => {
 
-    const { name } = useParams();
-    const [ info, setInfo ] = useState([]);
+    const { name } = useParams();  // Get the destination name from the URL parameters
+    const [ info, setInfo ] = useState([]);  // State to hold the destination information
 
     const navigate = useNavigate();
 
@@ -23,6 +23,7 @@ const InfoPage = ( { allDestinations } ) => {
         }
     }, [allDestinations, name]);
 
+    const [ reviews, setReviews ] = useState([]);  // State to hold the reviews
     const [ reviewData, setReviewData ] = useState({
         name: "",
         rating: "",
@@ -35,6 +36,10 @@ const InfoPage = ( { allDestinations } ) => {
             ...prevData,
             [name]: value
         }));
+    };
+
+    const handleAddReview = (reviews) => {
+        setReviews((prevReviews) => [ ...prevReviews, reviews]);
     };
 
     const saveNewReview = async review => {
@@ -62,7 +67,8 @@ const InfoPage = ( { allDestinations } ) => {
                 transition: Bounce,
             });            
         } else {
-            saveNewReview(reviewData);
+            handleAddReview(reviewData);  // Add the new review to the state and update the UI
+            saveNewReview(reviewData);  // Save the new review to the database            
             setReviewData({
                 name: "",
                 rating: "",
@@ -96,7 +102,7 @@ const InfoPage = ( { allDestinations } ) => {
             </div>
             <div>
                 <form className="review-form">
-                    <h3>Did you check out one of our Doggy Destinations?? Leave a Review and tell us what you thought!!</h3>
+                    <h2>Did you check out one of our Doggy Destinations?? Leave a Review and tell us what you thought!!</h2>
                     <label>
                         <input required placeholder="Name" type="text" name="name" value={reviewData.name} 
                         onChange={handleReviewChange} />
@@ -111,15 +117,15 @@ const InfoPage = ( { allDestinations } ) => {
                     </label>                   
                     <button type="submit" onClick={handleReviewSubmit}>Submit Review</button>
                 </form>
-            </div>
-                
+            </div>                
             <div>
-                <h3>Reviews:</h3>
+                <h2>Reviews:</h2>
                 <ul>
-                {reviewData && reviewData.length > 0 ? (
-                    reviewData.map((review, index) => (
+                {reviews && reviews.length > 0 ? (
+                    reviews.map((review, index) => (
                         <li key={index} className="review">
-                            <strong>{review.name}</strong> rated it a {review.rating} out of 5
+                            <strong>{review.name}</strong> rated this Doggy Destination with a {review.rating} out of 5. <br />
+                            Review:
                             {review.review}
                         </li>
                     ))                    
