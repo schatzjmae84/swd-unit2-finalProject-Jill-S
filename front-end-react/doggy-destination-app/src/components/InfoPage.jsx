@@ -83,6 +83,53 @@ const InfoPage = ( { allDestinations } ) => {
             });
         }
     };
+    const updateReview = id => {
+        const reviewToUpdate = reviews.find(review => review.id === id);
+        
+        fetch(`http://localhost:8080/api/doggyDestinations/destinations/${name}/reviews/${id}`, {
+            method: "PUT",
+            body: JSON.stringify(reviewToUpdate),
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*"
+            },
+        })
+        .then(response => response.json())
+        .then(() => {
+            setReviews(prevReviews => 
+                prevReviews.map(review => 
+                    review.id === id ? { ...review, ...reviewToUpdate } : review
+                )
+            );            
+        })
+    };
+
+    const handleReviewUpdate = (event) => {
+        event.preventDefault();
+        if (!reviewData.name || !reviewData.rating || !reviewData.review) {
+            toast.error("Please, fill out all fields before updating your review.", {
+                position: "top-center",
+                autoClose: 3000,
+                closeOnClick: true,
+                draggable: true,
+                transition: Bounce,
+            });
+        } else {
+            updateReview(reviewData.id);  // Update the review in the database
+            setReviewData({
+                name: "",
+                rating: "",
+                review: ""
+            });
+            toast.success("Thank you for updating your review!", {
+                position: "top-center",
+                autoClose: 3000,
+                closeOnClick: true,
+                draggable: true,
+                transition: Bounce,
+            });
+        }
+    };
 
     return (
 
@@ -127,12 +174,14 @@ const InfoPage = ( { allDestinations } ) => {
                             <strong>{review.name}</strong> rated this Doggy Destination with a {review.rating} out of 5. <br />
                             Review:
                             {review.review}
+                            <button intent="primary" onClick={handleReviewUpdate}>Revise Review</button>
+                            <button>Delete Review</button>
                         </li>
                     ))                    
                 ) : (
                     <p>No reviews yet. Be the first to leave a review!</p>
-                )}
-                </ul>
+                )}                
+                </ul>                
             </div>
 
             <div className="image-gallery">

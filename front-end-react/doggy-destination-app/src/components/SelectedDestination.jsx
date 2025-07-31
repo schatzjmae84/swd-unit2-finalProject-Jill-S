@@ -65,7 +65,6 @@ const SelectedDestination = () => {
         .then((data) => {
             if (data && data.length > 0) {
                 setAllDestinations(data);
-                console.log(data);
             } else {
                 setError("No destination found for the selected ID.");
             }                  
