@@ -96,39 +96,43 @@ const InfoPage = ( { allDestinations } ) => {
         })
         .then(response => response.json())
         .then(() => {
-            setReviews(prevReviews => 
-                prevReviews.map(review => 
-                    review.id === id ? { ...review, ...reviewToUpdate } : review
-                )
-            );            
-        })
-    };
-
-    const handleReviewUpdate = (event) => {
-        event.preventDefault();
-        if (!reviewData.name || !reviewData.rating || !reviewData.review) {
-            toast.error("Please, fill out all fields before updating your review.", {
-                position: "top-center",
-                autoClose: 3000,
-                closeOnClick: true,
-                draggable: true,
-                transition: Bounce,
-            });
-        } else {
-            updateReview(reviewData.id);  // Update the review in the database
-            setReviewData({
-                name: "",
-                rating: "",
-                review: ""
-            });
             toast.success("Thank you for updating your review!", {
                 position: "top-center",
                 autoClose: 3000,
                 closeOnClick: true,
                 draggable: true,
                 transition: Bounce,
+            });                         
+        })
+    };
+
+    const deleteReview = id => {
+        fetch(`http://localhost:8080/api/doggyDestinations/destinations/${name}/reviews/delete/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*"
+            }
+        })
+            .then(response => response.json())
+            .then(() => {
+                setReviews(reviews.filter(review => review.id !== id));
+                toast.success("Review deleted successfully!", {
+                    position: "top-center",
+                    autoClose: 3000,
+                    closeOnClick: true,
+                    draggable: true,
+                    transition: Bounce,
+                });
             });
-        }
+        };
+
+    const handleReviewUpdate = (id, key, value) => {
+        setReviews((prevReviews) =>
+            prevReviews.map((review) =>
+                review.id === id ? { ...review, [key]: value } : review
+            )
+        );
     };
 
     return (
@@ -165,23 +169,47 @@ const InfoPage = ( { allDestinations } ) => {
                     <button type="submit" onClick={handleReviewSubmit}>Submit Review</button>
                 </form>
             </div>                
-            <div>
-                <h2>Reviews:</h2>
-                <ul>
-                {reviews && reviews.length > 0 ? (
-                    reviews.map((review, index) => (
-                        <li key={index} className="review">
-                            <strong>{review.name}</strong> rated this Doggy Destination with a {review.rating} out of 5. <br />
-                            Review:
-                            {review.review}
-                            <button intent="primary" onClick={handleReviewUpdate}>Revise Review</button>
-                            <button>Delete Review</button>
-                        </li>
-                    ))                    
-                ) : (
-                    <p>No reviews yet. Be the first to leave a review!</p>
-                )}                
-                </ul>                
+            <div className="reviews">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Rating</th>
+                            <th>Review</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {reviews.map(review => (
+                            <tr key={review.id} id={review.id} value={review.id}>
+                                <td>{review.id}</td>
+                                <td>{review.name}</td>
+                                <td>
+                                    <div>
+                                    <contentEditable
+                                        value={review.rating}
+                                        onChange={(value) => handleReviewUpdate(review.id, 'rating', value)}
+                                    />    
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>
+                                    <contentEditable
+                                        value={review.review}
+                                        onChange={(value) => handleReviewUpdate(review.id, 'review', value)}
+                                    />
+                                    </div>
+                                </td>
+                                <td>
+                                    <button intent="primary" onClick={() => updateReview(review.id)}>Update</button>
+                                </td>
+                                <td>
+                                    <button intent="danger" onClick={() => deleteReview(review.id)}>Delete</button>
+                                </td>                                
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>         
             </div>
 
             <div className="image-gallery">
