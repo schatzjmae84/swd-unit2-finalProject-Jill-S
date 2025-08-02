@@ -1,27 +1,22 @@
-import { useNavigate, useParams } from "react-router"; 
-import { useState, useEffect } from "react";
-import { Link } from "react-router";
+import { Link, useParams } from "react-router"; 
+import { useState, useEffect, use } from "react";
 import ReactImageGallery from "react-image-gallery";
-import { PupPics } from "./PupPics.js";
+import { PupPics } from "../PupPics.js";
 import { ToastContainer, toast, Bounce } from "react-toastify";
+import EditableText from "./EditableText.jsx";
 import "react-image-gallery/styles/css/image-gallery.css";
-import "./styling/InfoPage.css";
+import "../styling/InfoPage.css";
 
-const InfoPage = ( { allDestinations } ) => {
+const InfoPage = () => {
 
     const { name } = useParams();  // Get the destination name from the URL parameters
     const [ info, setInfo ] = useState([]);  // State to hold the destination information
 
-    const navigate = useNavigate();
-
     useEffect(() => {
-        if (allDestinations && allDestinations.length > 0) {
-            const selectDestination = allDestinations.find(
-                (dest) => (dest.name) == (name)
-            );
-            setInfo(selectDestination);
-        }
-    }, [allDestinations, name]);
+        fetch(`http://localhost:8080/api/doggyDestinations/destinations/${name}`)
+            .then(response => response.json())
+            .then(data => setInfo(data));
+        }, [name]);  // Fetch the destination information when the component mounts or when the name changes
 
     const [ reviews, setReviews ] = useState([]);  // State to hold the reviews
     const [ reviewData, setReviewData ] = useState({
@@ -32,15 +27,24 @@ const InfoPage = ( { allDestinations } ) => {
 
     const handleReviewChange = (event) => {
         const { name, value } = event.target;
-        setReviewData((prevData) => ({
-            ...prevData,
-            [name]: value
+        setReviewData((prevData) => ({ 
+            ...prevData, 
+            [name]: value 
         }));
     };
 
     const handleAddReview = (reviews) => {
-        setReviews((prevReviews) => [ ...prevReviews, reviews]);
+        setReviews((prevReviews) => 
+            [ ...prevReviews, reviews ]);                 
     };
+
+    useEffect(() => {
+        fetch(`http://localhost:8080/api/doggyDestinations/destinations/${name}/reviews`)
+            .then(response => response.json())
+            .then(data => {
+                setReviews(data);
+            });
+    }, [name]);
 
     const saveNewReview = async review => {
 
@@ -51,9 +55,10 @@ const InfoPage = ( { allDestinations } ) => {
                 "Access-Control-Allow-Origin": "*"
             },
             body: JSON.stringify(review)
-        });
-        navigate("/doggyDestinations/" + name);
-
+        })
+        await fetch(`http://localhost:8080/api/doggyDestinations/destinations/${name}/reviews`)
+            .then(response => response.json())
+            .then(data => setReviews(data));
     };
 
     const handleReviewSubmit = (event) => {
@@ -68,7 +73,7 @@ const InfoPage = ( { allDestinations } ) => {
             });            
         } else {
             handleAddReview(reviewData);  // Add the new review to the state and update the UI
-            saveNewReview(reviewData);  // Save the new review to the database            
+            saveNewReview(reviewData)
             setReviewData({
                 name: "",
                 rating: "",
@@ -186,7 +191,7 @@ const InfoPage = ( { allDestinations } ) => {
                                 <td>{review.name}</td>
                                 <td>
                                     <div>
-                                    <contentEditable
+                                    <EditableText
                                         value={review.rating}
                                         onChange={(value) => handleReviewUpdate(review.id, 'rating', value)}
                                     />    
@@ -194,7 +199,7 @@ const InfoPage = ( { allDestinations } ) => {
                                 </td>
                                 <td>
                                     <div>
-                                    <contentEditable
+                                    <EditableText
                                         value={review.review}
                                         onChange={(value) => handleReviewUpdate(review.id, 'review', value)}
                                     />
