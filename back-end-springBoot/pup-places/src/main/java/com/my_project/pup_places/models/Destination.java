@@ -1,7 +1,10 @@
 package com.my_project.pup_places.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity   // Represents a destination for pets, such as a dog park or pet-friendly social setting
@@ -29,6 +32,10 @@ public class Destination {
 
     @Column(name="website")
     private String website;
+
+    @OneToMany(mappedBy = "destination")
+    @JsonBackReference
+    private final List<DestinationReview> destinationReviews = new ArrayList<>();
 
     public Destination(String name, int rating, String activity, Address address, String description, String website) {
         this.name = name;
@@ -91,6 +98,10 @@ public class Destination {
 
     public void setWebsite(String website) {
         this.website = website;
+    }
+
+    public List<DestinationReview> getDestinationReviews() {
+        return destinationReviews;
     }
 
     @Override

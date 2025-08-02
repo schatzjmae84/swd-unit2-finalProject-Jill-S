@@ -25,17 +25,31 @@ public class DestinationReviewController {
         DestinationReview newDestinationReview = new DestinationReview(
                 destinationReview.getName(),
                 destinationReview.getRating(),
-                destinationReview.getReview()
+                destinationReview.getReview(),
+                destinationReview.getDestination()
         );
         destinationReviewRepository.save(newDestinationReview);
         return new ResponseEntity<>(newDestinationReview, HttpStatus.CREATED); // 201 Created
     }
 
+    // GET method to retrieve all destination reviews for a specific destination
+    // Corresponds to the endpoint: /api/doggyDestinations/destinations/{name}/reviews/{id}
+    @GetMapping(value = "/reviews/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getDestinationReviewById(@PathVariable(value = "id") int id) {
+        DestinationReview currentDestinationReview = destinationReviewRepository.findById(id).orElse(null);
+        if (currentDestinationReview != null) {
+            return new ResponseEntity<>(currentDestinationReview, HttpStatus.OK); // 200 OK
+        } else {
+            String response = "The review with the ID of " + id + " does not exist.";
+            return new ResponseEntity<>(Collections.singletonMap("response", response), HttpStatus.NOT_FOUND); // 404 Not Found
+        }
+    }
+
     // PUT method to update an existing destination review by its ID
-    // Corresponds to the endpoint: /api/doggyDestinations/destinations/{destinationId}/reviews/{reviewId}
-    @PutMapping(value = "/reviews/{reviewId}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> updateDestinationReview(@PathVariable (value = "reviewId") int reviewId, @RequestBody DestinationReview updateddestinationReview) {
-    DestinationReview currentDestinationReview = destinationReviewRepository.findById(reviewId).orElse(null);
+    // Corresponds to the endpoint: /api/doggyDestinations/destinations/{name}/reviews/{id}
+    @PutMapping(value = "/reviews/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> updateDestinationReview(@PathVariable (value = "id") int id, @RequestBody DestinationReview updateddestinationReview) {
+    DestinationReview currentDestinationReview = destinationReviewRepository.findById(id).orElse(null);
         if (currentDestinationReview != null) {
             currentDestinationReview.setName(updateddestinationReview.getName());
             currentDestinationReview.setRating(updateddestinationReview.getRating());
@@ -43,21 +57,21 @@ public class DestinationReviewController {
             destinationReviewRepository.save(currentDestinationReview);
             return new ResponseEntity<>(currentDestinationReview, HttpStatus.OK); // 200 OK
         } else {
-            String response = "The review with the ID of " + reviewId + " does not exist.";
+            String response = "The review with the ID of " + id + " does not exist.";
             return new ResponseEntity<>(Collections.singletonMap("response", response), HttpStatus.NOT_FOUND); // 404 Not Found
         }
     }
 
     //DELETE method to delete a destination review by its ID
-    // Corresponds to the endpoint: /api/doggyDestinations/destinations/{destinationId}/reviews/delete/{reviewId}
-    @DeleteMapping(value = "/reviews/delete/{reviewId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> deleteDestinationReview(@PathVariable(value = "reviewId") int reviewId) {
-        DestinationReview currentDestinationReview = destinationReviewRepository.findById(reviewId).orElse(null);
+    // Corresponds to the endpoint: /api/doggyDestinations/destinations/{name}/reviews/delete/{id}
+    @DeleteMapping(value = "/reviews/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> deleteDestinationReview(@PathVariable(value = "id") int id) {
+        DestinationReview currentDestinationReview = destinationReviewRepository.findById(id).orElse(null);
         if (currentDestinationReview != null) {
-            destinationReviewRepository.deleteById(reviewId);
+            destinationReviewRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT); // 204 No Content
         } else {
-            String response = "The review with the ID of " + reviewId + " does not exist.";
+            String response = "The review with the ID of " + id + " does not exist.";
             return new ResponseEntity<>(Collections.singletonMap("response", response), HttpStatus.NOT_FOUND); // 404 Not Found
         }
     }

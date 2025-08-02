@@ -13,7 +13,7 @@ import java.util.Collections;
 
 @CrossOrigin(origins = "*", maxAge = 3600) // Allow cross-origin requests from any origin
 @RestController
-@RequestMapping("/api/doggyDestinations") // Base URL for the API
+@RequestMapping("/api/doggyDestinations/destinations") // Base URL for the API
 public class DestinationController {
 
     @Autowired
