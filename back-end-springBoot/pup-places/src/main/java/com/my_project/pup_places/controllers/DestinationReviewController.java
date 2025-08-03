@@ -1,6 +1,8 @@
 package com.my_project.pup_places.controllers;
+import com.my_project.pup_places.models.Destination;
 import com.my_project.pup_places.models.DestinationReview;
 import com.my_project.pup_places.repositories.DestinationReviewRepository;
+import org.apache.catalina.LifecycleState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -8,32 +10,33 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600) // Allow cross-origin requests from any origin
 @RestController
-@RequestMapping("/api/doggyDestinations/{name}") // Base URL for the API
+@RequestMapping("/api/destinationReviews") // Base URL for the API
 public class DestinationReviewController {
 
     @Autowired
     DestinationReviewRepository destinationReviewRepository;
 
     // POST method to create a new destination review
-    // Corresponds to the endpoint: /api/doggyDestinations/{name}/reviews
-    @PostMapping(value = "/reviews", consumes = MediaType.APPLICATION_JSON_VALUE)
+    // Corresponds to the endpoint: /api/destinationReviews/add
+    @PostMapping(value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createDestinationReview(@RequestBody DestinationReview destinationReview) {
         DestinationReview newDestinationReview = new DestinationReview(
                 destinationReview.getName(),
                 destinationReview.getRating(),
-                destinationReview.getReview(),
-                destinationReview.getDestination()
+                destinationReview.getReview()
         );
         destinationReviewRepository.save(newDestinationReview);
         return new ResponseEntity<>(newDestinationReview, HttpStatus.CREATED); // 201 Created
     }
 
-    // GET method to retrieve all destination reviews for a specific destination
-    // Corresponds to the endpoint: /api/doggyDestinations/{name}/reviews/{id}
-    @GetMapping(value = "/reviews/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    // GET method to retrieve all destination reviews
+    // Corresponds to the endpoint: /api/destinationReviews
+    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getDestinationReviewById(@PathVariable(value = "id") int id) {
         DestinationReview currentDestinationReview = destinationReviewRepository.findById(id).orElse(null);
         if (currentDestinationReview != null) {
@@ -45,8 +48,8 @@ public class DestinationReviewController {
     }
 
     // PUT method to update an existing destination review by its ID
-    // Corresponds to the endpoint: /api/doggyDestinations/{name}/reviews/{id}
-    @PutMapping(value = "/reviews/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    // Corresponds to the endpoint: /api/destinationReviews/update/{id}
+    @PutMapping(value = "/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateDestinationReview(@PathVariable (value = "id") int id, @RequestBody DestinationReview updateddestinationReview) {
     DestinationReview currentDestinationReview = destinationReviewRepository.findById(id).orElse(null);
         if (currentDestinationReview != null) {
@@ -62,8 +65,8 @@ public class DestinationReviewController {
     }
 
     //DELETE method to delete a destination review by its ID
-    // Corresponds to the endpoint: /api/doggyDestinations/{name}/reviews/delete/{id}
-    @DeleteMapping(value = "/reviews/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    // Corresponds to the endpoint: /api/destinationReviews/delete/{id}
+    @DeleteMapping(value = "/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> deleteDestinationReview(@PathVariable(value = "id") int id) {
         DestinationReview currentDestinationReview = destinationReviewRepository.findById(id).orElse(null);
         if (currentDestinationReview != null) {

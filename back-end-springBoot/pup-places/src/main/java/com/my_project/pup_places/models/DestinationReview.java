@@ -23,15 +23,10 @@ public class DestinationReview {
     @Lob  // Allows for larger text reviews
     private String review;
 
-    @ManyToOne
-    @JsonManagedReference
-    private Destination destination;  // Reference to the destination this review belongs to
-
-    public DestinationReview(String name, BigDecimal rating, String review, Destination destination) {
+    public DestinationReview(String name, BigDecimal rating, String review) {
         this.name = name;
         this.rating = rating;
         this.review = review;
-        this.destination = destination;
     }
 
     public DestinationReview() {};
@@ -58,14 +53,6 @@ public class DestinationReview {
 
     public void setReview(String review) {
         this.review = review;
-    }
-
-    public Destination getDestination() {
-        return destination;
-    }
-
-    public void setDestination(Destination destination) {
-        this.destination = destination;
     }
 
     @Override
