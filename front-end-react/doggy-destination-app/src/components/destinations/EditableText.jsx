@@ -18,7 +18,7 @@ const EditableText = ( {value, onChange} ) => {
 
     const handleBlur = () => {
         setIsEditing(false);
-        if (text.trim() !== value.trim()) {
+        if (text.toString().trim() !== value.toString().trim()) {
             onChange(text);
         }
     };

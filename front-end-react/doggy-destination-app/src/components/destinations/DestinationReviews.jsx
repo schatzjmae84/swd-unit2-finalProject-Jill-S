@@ -1,12 +1,10 @@
 import EditableText from "./EditableText.jsx";
-import InfoPage from "./InfoPage.jsx";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router";
 
 
 const DestinationReviews = ( ) => {
-
-    const [ reviews, setReviews ] = useState([]);  // State to hold the reviews
 
     useEffect(() => { 
         fetch("http://localhost:8080/api/destinationReviews", {
@@ -17,13 +15,74 @@ const DestinationReviews = ( ) => {
         })
             .then(response => response.json())
             .then(data => {
-                setReviews(data);
-            });
+                setReviews(Array.isArray(data) ? data : []);
+            })
+            .catch(() => setReviews([]));  // If fetch fails, set to an empty array
     }, []);
 
+    const { DestinationReviews } = useParams();
+    const [ reviews, setReviews ] = useState([]);  // State to hold the reviews
+    const [ editDraft, setEditDraft ] = useState({}); // State to hold the draft edits for reviews
+    const [ reviewData, setReviewData ] = useState({
+        name: "",
+        rating: "",
+        review: ""
+    });
+
+    const handleReviewChange = (event) => { // Handle changes in the review form inputs
+        event.preventDefault();
+        const { name, value } = event.target;
+        setReviewData((prevData) => ({ 
+            ...prevData, 
+            [name]: value 
+        }));        
+    };    
+
+    const saveNewReview = async review => {
+
+        await fetch("http://localhost:8080/api/destinationReviews/add", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json", 
+                "Access-Control-Allow-Origin": "*"
+            },
+            body: JSON.stringify(review)
+        });
+        fetch("http://localhost:8080/api/destinationReviews")
+        .then(response => response.json())
+        .then(data => setReviews(Array.isArray(data) ? data : []));        
+    };
+
+    const handleReviewSubmit = (event) => {
+        event.preventDefault();
+        if (!reviewData.name || !reviewData.rating || !reviewData.review) {
+            toast.error("Please, fill out all fields before submitting your review.", {
+                position: "top-center",
+                autoClose: 3000,
+                closeOnClick: true,
+                draggable: true,
+                transition: Bounce,
+            });            
+        } else {
+            saveNewReview(reviewData)
+            setReviewData({
+                name: "",
+                rating: "",
+                review: ""
+            });
+            toast.success("Thank you for your review!", {
+                position: "top-center",
+                autoClose: 3000,
+                closeOnClick: true,
+                draggable: true,
+                transition: Bounce,
+            });
+        }
+    };    
+
     const updateReview = id => {
-        const reviewToUpdate = reviews.find(review => review.id === id);
-        
+        const reviewToUpdate = { ...reviews.find(review => review.id === id), ...editDraft[id] };
+
         fetch(`http://localhost:8080/api/destinationReviews/update/${id}`, {
             method: "PUT",
             headers: {
@@ -32,17 +91,21 @@ const DestinationReviews = ( ) => {
             },
             body: JSON.stringify(reviewToUpdate)            
         })
+        fetch("http://localhost:8080/api/destinationReviews")
         .then(response => response.json())
-        .then(() => {
-            toast.success("Thank you for updating your review!", {
-                position: "top-center",
-                autoClose: 3000,
-                closeOnClick: true,
-                draggable: true,
-                transition: Bounce,
-            });                         
-        })
-    };
+        .then(data => setReviews(Array.isArray(data) ? data : [])); // Refresh the reviews after update
+        setEditDraft((prev) => {
+            const copy = { ...prev };
+            return copy;
+        });
+        toast.success("Thank you for updating your review!", {
+            position: "top-center",
+            autoClose: 3000,
+            closeOnClick: true,
+            draggable: true,
+            transition: Bounce,
+        });
+    };    
 
     const deleteReview = id => {
         fetch(`http://localhost:8080/api/destinationReviews/delete/${id}`, {
@@ -52,29 +115,51 @@ const DestinationReviews = ( ) => {
                 "Access-Control-Allow-Origin": "*"
             }
         })
-            .then(response => response.json())
-            .then(() => {
-                setReviews(reviews.filter(review => review.id !== id));
-                toast.success("Review deleted successfully!", {
-                    position: "top-center",
-                    autoClose: 3000,
-                    closeOnClick: true,
-                    draggable: true,
-                    transition: Bounce,
-                });
+        .then(response => {
+            if (!response.ok) throw new Error("Delete failed");
+            setReviews(prevReviews => prevReviews.filter(review => review.id !== id));
+            toast.success("Review deleted successfully!", { 
+                position: "top-center",
+                autoClose: 3000,
+                closeOnClick: true,
+                draggable: true,
+                transition: Bounce,
             });
-        };
-
-    const handleReviewUpdate = (id, key, value) => {
-        setReviews((prevReviews) =>
-            prevReviews.map((review) =>
-                review.id === id ? { ...review, [key]: value } : review
-            )
-        );
+        })
+        .catch(() => {
+            toast.error("Failed to delete review. Please try again.", {
+                position: "top-center",
+                autoClose: 3000,
+                closeOnClick: true,
+                draggable: true,
+                transition: Bounce,
+            });
+        });
     };
 
     return (
-        <div className="reviews">
+
+        <div>
+            <div>
+                <form className="review-form">
+                    <h2>Did you check out one of our Doggy Destinations?? Leave a Review and tell us what you thought!!</h2>
+                    <label>
+                        <input required placeholder="Name" type="text" name="name" value={reviewData.name} 
+                        onChange={handleReviewChange} />
+                    </label>
+                    <label>
+                        <input required placeholder="Rating (1-5)" type="number" name="rating" value={reviewData.rating}
+                        onChange={handleReviewChange} min="1" max="5" />
+                    </label>
+                    <label>
+                        <textarea required placeholder="Let us know what you thought!" rows="4" cols="50" name="review" value={reviewData.review} 
+                        onChange={handleReviewChange} />                        
+                    </label>                   
+                    <button type="submit" onClick={handleReviewSubmit}>Submit Review</button>
+                </form>
+            </div>    
+            <div className="reviews">
+            <h2>{DestinationReviews}</h2>
                 <table>
                     <thead>
                         <tr>
@@ -95,16 +180,34 @@ const DestinationReviews = ( ) => {
                                     <td>
                                         <div>
                                     <EditableText
-                                        value={review.rating}
-                                        onChange={(value) => handleReviewUpdate(review.id, 'rating', value)}
+                                        value={editDraft[review.id]?.rating ?? review.rating}
+                                        onChange={(value) =>
+                                            setEditDraft((prev) => ({
+                                            ...prev,
+                                            [review.id]: {
+                                                ...prev[review.id],
+                                                rating: value,
+                                                review: prev[review.id]?.review ?? review.review,
+                                            },
+                                            }))
+                                        }
                                     />    
                                     </div>
                                 </td>
                                 <td>
                                     <div>
                                     <EditableText
-                                        value={review.review}
-                                        onChange={(value) => handleReviewUpdate(review.id, 'review', value)}
+                                      value={editDraft[review.id]?.review ?? review.review}
+                                        onChange={(value) =>
+                                            setEditDraft((prev) => ({
+                                            ...prev,
+                                            [review.id]: {
+                                                ...prev[review.id],
+                                                rating: prev[review.id]?.rating ?? review.rating,
+                                                review: value,
+                                            },
+                                            }))
+                                        }  
                                     />
                                     </div>
                                 </td>
@@ -118,10 +221,9 @@ const DestinationReviews = ( ) => {
                         )))}
                     </tbody>
                 </table>
-                <InfoPage 
-                setReviews={setReviews} /> 
                 <ToastContainer />       
             </div>
+        </div>    
     )
 };
 
