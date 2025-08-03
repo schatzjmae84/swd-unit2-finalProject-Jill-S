@@ -1,5 +1,4 @@
 package com.my_project.pup_places.controllers;
-
 import com.my_project.pup_places.models.DestinationReview;
 import com.my_project.pup_places.repositories.DestinationReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,14 +11,14 @@ import java.util.Collections;
 
 @CrossOrigin(origins = "*", maxAge = 3600) // Allow cross-origin requests from any origin
 @RestController
-@RequestMapping("/api/doggyDestinations/destinations/{name}") // Base URL for the API
+@RequestMapping("/api/doggyDestinations/{name}") // Base URL for the API
 public class DestinationReviewController {
 
     @Autowired
     DestinationReviewRepository destinationReviewRepository;
 
     // POST method to create a new destination review
-    // Corresponds to the endpoint: /api/doggyDestinations/destinations/{name}/reviews
+    // Corresponds to the endpoint: /api/doggyDestinations/{name}/reviews
     @PostMapping(value = "/reviews", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createDestinationReview(@RequestBody DestinationReview destinationReview) {
         DestinationReview newDestinationReview = new DestinationReview(
@@ -33,7 +32,7 @@ public class DestinationReviewController {
     }
 
     // GET method to retrieve all destination reviews for a specific destination
-    // Corresponds to the endpoint: /api/doggyDestinations/destinations/{name}/reviews/{id}
+    // Corresponds to the endpoint: /api/doggyDestinations/{name}/reviews/{id}
     @GetMapping(value = "/reviews/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getDestinationReviewById(@PathVariable(value = "id") int id) {
         DestinationReview currentDestinationReview = destinationReviewRepository.findById(id).orElse(null);
@@ -46,7 +45,7 @@ public class DestinationReviewController {
     }
 
     // PUT method to update an existing destination review by its ID
-    // Corresponds to the endpoint: /api/doggyDestinations/destinations/{name}/reviews/{id}
+    // Corresponds to the endpoint: /api/doggyDestinations/{name}/reviews/{id}
     @PutMapping(value = "/reviews/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateDestinationReview(@PathVariable (value = "id") int id, @RequestBody DestinationReview updateddestinationReview) {
     DestinationReview currentDestinationReview = destinationReviewRepository.findById(id).orElse(null);
@@ -63,7 +62,7 @@ public class DestinationReviewController {
     }
 
     //DELETE method to delete a destination review by its ID
-    // Corresponds to the endpoint: /api/doggyDestinations/destinations/{name}/reviews/delete/{id}
+    // Corresponds to the endpoint: /api/doggyDestinations/{name}/reviews/delete/{id}
     @DeleteMapping(value = "/reviews/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> deleteDestinationReview(@PathVariable(value = "id") int id) {
         DestinationReview currentDestinationReview = destinationReviewRepository.findById(id).orElse(null);
