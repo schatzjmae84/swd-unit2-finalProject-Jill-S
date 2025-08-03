@@ -36,15 +36,10 @@ public class DestinationReviewController {
 
     // GET method to retrieve all destination reviews
     // Corresponds to the endpoint: /api/destinationReviews
-    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getDestinationReviewById(@PathVariable(value = "id") int id) {
-        DestinationReview currentDestinationReview = destinationReviewRepository.findById(id).orElse(null);
-        if (currentDestinationReview != null) {
-            return new ResponseEntity<>(currentDestinationReview, HttpStatus.OK); // 200 OK
-        } else {
-            String response = "The review with the ID of " + id + " does not exist.";
-            return new ResponseEntity<>(Collections.singletonMap("response", response), HttpStatus.NOT_FOUND); // 404 Not Found
-        }
+    @GetMapping(value = "")
+    public ResponseEntity<?> getAllDestinationReviews() {
+        List<DestinationReview> allDestinationReviews = destinationReviewRepository.findAll();
+        return new ResponseEntity<>(allDestinationReviews, HttpStatus.OK); // 200 OK
     }
 
     // PUT method to update an existing destination review by its ID
