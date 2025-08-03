@@ -11,12 +11,12 @@ const InfoPage = () => {
 
     const { name } = useParams();  // Get the destination name from the URL parameters
     const [ info, setInfo ] = useState([]);  // State to hold the destination information
-
+    
     useEffect(() => {
-        fetch(`http://localhost:8080/api/doggyDestinations/destinations/${name}`)
+        fetch(`http://localhost:8080/api/doggyDestinations/${name}`)
             .then(response => response.json())
             .then(data => setInfo(data));
-        }, [name]);  // Fetch the destination information when the component mounts or when the name changes
+        }, [name]);  // Fetch the destination information when the component mounts or when name changes
 
     const [ reviews, setReviews ] = useState([]);  // State to hold the reviews
     const [ reviewData, setReviewData ] = useState({
@@ -39,7 +39,12 @@ const InfoPage = () => {
     };
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/doggyDestinations/destinations/${name}/reviews`)
+        fetch(`http://localhost:8080/api/doggyDestinations/${name}/reviews`, {
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*"
+            }
+        })
             .then(response => response.json())
             .then(data => {
                 setReviews(data);
@@ -48,17 +53,14 @@ const InfoPage = () => {
 
     const saveNewReview = async review => {
 
-        await fetch(`http://localhost:8080/api/doggyDestinations/destinations/${name}/reviews`, {
+        await fetch(`http://localhost:8080/api/doggyDestinations/${name}/reviews`, {
             method: "POST",
             headers: {
-                "Content-Type": "application/json",
+                "Content-Type": "application/json; charset=UTF-8",
                 "Access-Control-Allow-Origin": "*"
             },
             body: JSON.stringify(review)
-        })
-        await fetch(`http://localhost:8080/api/doggyDestinations/destinations/${name}/reviews`)
-            .then(response => response.json())
-            .then(data => setReviews(data));
+        })        
     };
 
     const handleReviewSubmit = (event) => {
@@ -91,13 +93,13 @@ const InfoPage = () => {
     const updateReview = id => {
         const reviewToUpdate = reviews.find(review => review.id === id);
         
-        fetch(`http://localhost:8080/api/doggyDestinations/destinations/${name}/reviews/${id}`, {
+        fetch(`http://localhost:8080/api/doggyDestinations/${name}/reviews/${id}`, {
             method: "PUT",
-            body: JSON.stringify(reviewToUpdate),
             headers: {
                 "Content-Type": "application/json",
                 "Access-Control-Allow-Origin": "*"
             },
+            body: JSON.stringify(reviewToUpdate)            
         })
         .then(response => response.json())
         .then(() => {
@@ -112,7 +114,7 @@ const InfoPage = () => {
     };
 
     const deleteReview = id => {
-        fetch(`http://localhost:8080/api/doggyDestinations/destinations/${name}/reviews/delete/${id}`, {
+        fetch(`http://localhost:8080/api/doggyDestinations/${name}/reviews/delete/${id}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -143,16 +145,18 @@ const InfoPage = () => {
     return (
 
         <div> 
-            <h2>{name}</h2>
             <div className="container">
                 <div className="item0">
-                <h2>{info.activity}</h2>
+                <h2>{name}</h2>
                 </div>
                 <div className="item1">
-                    <h3>{info.name}</h3>
-                    <h4>{info.rating}</h4>
-                        <p>{info.description}</p>
-                        <p>{info.address}</p>
+                    <h3>{info.description}</h3>
+                    <h4>Rating:  {info.rating}</h4>
+                        { info.address && typeof info.address === "object" ? (
+                            <p>Address:  {info.address.addressOne}, {info.address.city}, {info.address.state} {info.address.zipCode}</p>
+                        ) : (
+                            <p>{info.address}</p>
+                        )}
                     <Link to={info.website}>{info.name} Website</Link>                                
                 </div>
             </div>
@@ -178,7 +182,6 @@ const InfoPage = () => {
                 <table>
                     <thead>
                         <tr>
-                            <th>ID</th>
                             <th>Name</th>
                             <th>Rating</th>
                             <th>Review</th>
@@ -187,7 +190,6 @@ const InfoPage = () => {
                     <tbody>
                         {reviews.map(review => (
                             <tr key={review.id} id={review.id} value={review.id}>
-                                <td>{review.id}</td>
                                 <td>{review.name}</td>
                                 <td>
                                     <div>

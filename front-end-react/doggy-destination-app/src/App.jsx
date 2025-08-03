@@ -19,7 +19,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/pupPlaces" element={<Main />} />
             <Route path="/idealInfo" element={<SelectedDestination />} />
-            <Route path="/doggyDestinations/destinations/:name" element={<InfoPage />} />  
+            <Route path="/doggyDestinations/:name" element={<InfoPage />} />  
           </Routes>
         </Router>        
       </main>

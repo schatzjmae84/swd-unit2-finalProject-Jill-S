@@ -58,16 +58,15 @@ const SelectedDestination = () => {
 
     const fetchDestination = async () => {
 
-        const response = await fetch(`http://localhost:8080/api/doggyDestinations/destinations/${name}`, {
+        const response = await fetch(`http://localhost:8080/api/doggyDestinations/${name}`, {
             headers: {
                 "Content-Type": "application/json",
                 "Access-Control-Allow-Origin": "*"
             }
         })
         setAllDestinations(await response.json())
-        setActivities(allDestinations.map(dest => dest.name)); // Set activities to the names of all destinations
-        console.log(allDestinations);
-    }
+        setActivities(allDestinations.map(dest => dest.name));              
+    };
 
     return (
         <div className="selected-destination">
@@ -94,7 +93,7 @@ const SelectedDestination = () => {
                     <ul>
                         {activities.map((activity, index) => (
                             <li key={index}>
-                            <Link to={`/doggyDestinations/destinations/${encodeURIComponent(activity)}`}>{activity}</Link>
+                            <Link to={`/doggyDestinations/${activity}`}>{activity}</Link>
                             </li>
                         ))} 
                     </ul>                          
