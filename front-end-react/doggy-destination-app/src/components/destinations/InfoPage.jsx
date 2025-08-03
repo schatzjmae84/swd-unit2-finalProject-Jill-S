@@ -1,13 +1,12 @@
 import { Link, useParams } from "react-router"; 
-import { useState, useEffect, use } from "react";
+import { useState, useEffect } from "react";
 import ReactImageGallery from "react-image-gallery";
 import { PupPics } from "../PupPics.js";
 import { ToastContainer, toast, Bounce } from "react-toastify";
-import EditableText from "./EditableText.jsx";
 import "react-image-gallery/styles/css/image-gallery.css";
 import "../styling/InfoPage.css";
 
-const InfoPage = () => {
+const InfoPage = (props) => {
 
     const { name } = useParams();  // Get the destination name from the URL parameters
     const [ info, setInfo ] = useState([]);  // State to hold the destination information
@@ -18,14 +17,14 @@ const InfoPage = () => {
             .then(data => setInfo(data));
         }, [name]);  // Fetch the destination information when the component mounts or when name changes
 
-    const [ reviews, setReviews ] = useState([]);  // State to hold the reviews
     const [ reviewData, setReviewData ] = useState({
         name: "",
         rating: "",
         review: ""
     });
 
-    const handleReviewChange = (event) => {
+    const handleReviewChange = (event) => { // Handle changes in the review form inputs
+        event.preventDefault();
         const { name, value } = event.target;
         setReviewData((prevData) => ({ 
             ...prevData, 
@@ -33,27 +32,14 @@ const InfoPage = () => {
         }));
     };
 
-    const handleAddReview = (reviews) => {
-        setReviews((prevReviews) => 
+    const handleAddReview = (reviews) => {  // Function to add a new review to the state
+        props.setReviews((prevReviews) => 
             [ ...prevReviews, reviews ]);                 
-    };
-
-    useEffect(() => {
-        fetch(`http://localhost:8080/api/doggyDestinations/${name}/reviews`, {
-            headers: {
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*"
-            }
-        })
-            .then(response => response.json())
-            .then(data => {
-                setReviews(data);
-            });
-    }, [name]);
+    };    
 
     const saveNewReview = async review => {
 
-        await fetch(`http://localhost:8080/api/doggyDestinations/${name}/reviews`, {
+        await fetch("http://localhost:8080/api/destinationReviews/add", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json", 
@@ -89,58 +75,7 @@ const InfoPage = () => {
                 transition: Bounce,
             });
         }
-    };
-    const updateReview = id => {
-        const reviewToUpdate = reviews.find(review => review.id === id);
-        
-        fetch(`http://localhost:8080/api/doggyDestinations/${name}/reviews/${id}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*"
-            },
-            body: JSON.stringify(reviewToUpdate)            
-        })
-        .then(response => response.json())
-        .then(() => {
-            toast.success("Thank you for updating your review!", {
-                position: "top-center",
-                autoClose: 3000,
-                closeOnClick: true,
-                draggable: true,
-                transition: Bounce,
-            });                         
-        })
-    };
-
-    const deleteReview = id => {
-        fetch(`http://localhost:8080/api/doggyDestinations/${name}/reviews/delete/${id}`, {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*"
-            }
-        })
-            .then(response => response.json())
-            .then(() => {
-                setReviews(reviews.filter(review => review.id !== id));
-                toast.success("Review deleted successfully!", {
-                    position: "top-center",
-                    autoClose: 3000,
-                    closeOnClick: true,
-                    draggable: true,
-                    transition: Bounce,
-                });
-            });
-        };
-
-    const handleReviewUpdate = (id, key, value) => {
-        setReviews((prevReviews) =>
-            prevReviews.map((review) =>
-                review.id === id ? { ...review, [key]: value } : review
-            )
-        );
-    };
+    };    
 
     return (
 
@@ -175,49 +110,10 @@ const InfoPage = () => {
                         <textarea required placeholder="Let us know what you thought!" rows="4" cols="50" name="review" value={reviewData.review} 
                         onChange={handleReviewChange} />                        
                     </label>                   
-                    <button type="submit" onClick={handleReviewSubmit}>Submit Review</button>
+                    <Link to="/destinationReviews"><button type="submit" onClick={handleReviewSubmit}>Submit Review</button></Link>
                 </form>
             </div>                
-            <div className="reviews">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Rating</th>
-                            <th>Review</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {reviews.map(review => (
-                            <tr key={review.id} id={review.id} value={review.id}>
-                                <td>{review.name}</td>
-                                <td>
-                                    <div>
-                                    <EditableText
-                                        value={review.rating}
-                                        onChange={(value) => handleReviewUpdate(review.id, 'rating', value)}
-                                    />    
-                                    </div>
-                                </td>
-                                <td>
-                                    <div>
-                                    <EditableText
-                                        value={review.review}
-                                        onChange={(value) => handleReviewUpdate(review.id, 'review', value)}
-                                    />
-                                    </div>
-                                </td>
-                                <td>
-                                    <button intent="primary" onClick={() => updateReview(review.id)}>Update</button>
-                                </td>
-                                <td>
-                                    <button intent="danger" onClick={() => deleteReview(review.id)}>Delete</button>
-                                </td>                                
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>         
-            </div>
+            
 
             <div className="image-gallery">
                 <div className="image-title">
