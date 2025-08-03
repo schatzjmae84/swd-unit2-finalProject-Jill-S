@@ -12,7 +12,7 @@ const EditableText = ( {value, onChange} ) => {
         setIsEditing(true);
     };
 
-    const handleChange = (event) => { 
+    const handleChange = (event) => {       
         setText(event.target.value);    
     };
 

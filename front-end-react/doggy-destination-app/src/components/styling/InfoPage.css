@@ -71,3 +71,17 @@ button {
     background-color: aliceblue;
 }
 
+.reviews {
+  margin: 2vw 0;
+  padding: 1vw;
+  border: double;
+  border-radius: 10px;
+  background-color: rgb(153, 207, 238);
+  color: blue;
+  opacity: 0.80;
+  font-weight: bolder;
+  font-size: medium;
+}
+
+
+

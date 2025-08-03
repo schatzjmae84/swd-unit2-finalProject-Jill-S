@@ -17,7 +17,7 @@ const Main = () => {
 
     const {pupPlaces} = useParams();
 
-    const [ form, setForm ] = useState(initialForm);
+    const [ form, setForm ] = useState(initialForm); // Use of state to handle the form data
 
     const navigate = useNavigate();  
 

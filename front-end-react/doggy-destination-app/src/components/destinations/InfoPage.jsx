@@ -56,7 +56,7 @@ const InfoPage = () => {
         await fetch(`http://localhost:8080/api/doggyDestinations/${name}/reviews`, {
             method: "POST",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8",
+                "Content-Type": "application/json", 
                 "Access-Control-Allow-Origin": "*"
             },
             body: JSON.stringify(review)
@@ -151,7 +151,7 @@ const InfoPage = () => {
                 </div>
                 <div className="item1">
                     <h3>{info.description}</h3>
-                    <h4>Rating:  {info.rating}</h4>
+                    <h4>Rating:  {info.rating} out of 5</h4>
                         { info.address && typeof info.address === "object" ? (
                             <p>Address:  {info.address.addressOne}, {info.address.city}, {info.address.state} {info.address.zipCode}</p>
                         ) : (
