@@ -19,7 +19,7 @@ const Main = () => {
 
     const [ form, setForm ] = useState(initialForm); // Use of state to handle the form data
 
-    const navigate = useNavigate();  
+    const navigate = useNavigate();  // This will navigate to a different route once I work on Phase 3   
 
     // Using the following handlers to update the corresponding form properties from state
     const handleUpdatePupName = (input) => {
@@ -88,7 +88,7 @@ const Main = () => {
                 <p className="appIntro">
                     This app is created to help dog owners seek out places that they can go and take their puppers with them.    
                 </p> 
-                <p className="appIntro2">Whether you are looking for an outdoor dog park to give your dog some exercise, or maybe you are wanting to get out and socialize with other dog owners?                    
+                <p className="appIntro2">Are you looking for an outdoor dog park to give your dog some exercise, or maybe you are wanting to get out and socialize with other dog owners?                    
                 </p>
                 <p className="appIntro3">This site is what you are looking for to get you to your desired "Doggy Destination!"                    
                 </p>

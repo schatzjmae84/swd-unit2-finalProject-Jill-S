@@ -4,8 +4,9 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 
 
-const DestinationReviews = ( ) => {
+const DestinationReviews = () => {
 
+    // Fetch all reviews from the server when the component mounts
     useEffect(() => { 
         fetch("http://localhost:8080/api/destinationReviews", {
             headers: {
@@ -21,9 +22,10 @@ const DestinationReviews = ( ) => {
     }, []);
 
     const { DestinationReviews } = useParams();
+
     const [ reviews, setReviews ] = useState([]);  // State to hold the reviews
     const [ editDraft, setEditDraft ] = useState({}); // State to hold the draft edits for reviews
-    const [ reviewData, setReviewData ] = useState({
+    const [ reviewData, setReviewData ] = useState({   // State to hold the new review data
         name: "",
         rating: "",
         review: ""
@@ -38,6 +40,7 @@ const DestinationReviews = ( ) => {
         }));        
     };    
 
+    // Function to POST a new review to the database and update the state
     const saveNewReview = async review => {
 
         await fetch("http://localhost:8080/api/destinationReviews/add", {
@@ -50,9 +53,10 @@ const DestinationReviews = ( ) => {
         });
         fetch("http://localhost:8080/api/destinationReviews")
         .then(response => response.json())
-        .then(data => setReviews(Array.isArray(data) ? data : []));        
+        .then(data => setReviews(Array.isArray(data) ? data : []));  // Use Array.isArray to ensure data is an array       
     };
 
+    // Function to handle the submission of a new review
     const handleReviewSubmit = (event) => {
         event.preventDefault();
         if (!reviewData.name || !reviewData.rating || !reviewData.review) {
@@ -65,7 +69,7 @@ const DestinationReviews = ( ) => {
             });            
         } else {
             saveNewReview(reviewData)
-            setReviewData({
+            setReviewData({   // Reset the reviewData state after submission
                 name: "",
                 rating: "",
                 review: ""
@@ -80,6 +84,8 @@ const DestinationReviews = ( ) => {
         }
     };    
 
+    // Function to update an existing review
+    // It fetches the review by ID, updates it with the draft changes, and sends it back to the database
     const updateReview = id => {
         const reviewToUpdate = { ...reviews.find(review => review.id === id), ...editDraft[id] };
 
@@ -93,7 +99,8 @@ const DestinationReviews = ( ) => {
         })
         fetch("http://localhost:8080/api/destinationReviews")
         .then(response => response.json())
-        .then(data => setReviews(Array.isArray(data) ? data : [])); // Refresh the reviews after update
+        .then(data => setReviews(Array.isArray(data) ? data : [])); // Use Array.isArray to ensure data is an array
+        // Reset the editDraft state for the updated review
         setEditDraft((prev) => {
             const copy = { ...prev };
             return copy;
@@ -107,6 +114,8 @@ const DestinationReviews = ( ) => {
         });
     };    
 
+    // Function to delete a review by ID
+    // It sends a DELETE request to the database and updates the state to remove the deleted review
     const deleteReview = id => {
         fetch(`http://localhost:8080/api/destinationReviews/delete/${id}`, {
             method: "DELETE",
@@ -117,7 +126,7 @@ const DestinationReviews = ( ) => {
         })
         .then(response => {
             if (!response.ok) throw new Error("Delete failed");
-            setReviews(prevReviews => prevReviews.filter(review => review.id !== id));
+            setReviews(prevReviews => prevReviews.filter(review => review.id !== id));  // Update the state to remove the deleted review
             toast.success("Review deleted successfully!", { 
                 position: "top-center",
                 autoClose: 3000,
@@ -126,6 +135,7 @@ const DestinationReviews = ( ) => {
                 transition: Bounce,
             });
         })
+        // Handle any errors that occur during the delete operation
         .catch(() => {
             toast.error("Failed to delete review. Please try again.", {
                 position: "top-center",
@@ -138,7 +148,6 @@ const DestinationReviews = ( ) => {
     };
 
     return (
-
         <div>
             <div>
                 <form className="review-form">
@@ -160,18 +169,19 @@ const DestinationReviews = ( ) => {
             </div>    
             <div className="reviews">
             <h2>{DestinationReviews}</h2>
-                <table>
+                <table style={{width: "100%"}}>
                     <thead>
                         <tr>
                             <th>Name</th>
                             <th>Rating</th>
-                            <th>Review</th>
+                            <th>Review - Double Click to Update!</th>
                         </tr>
                     </thead>
                     <tbody>
+                        /* Check if there are any reviews to display */
                         {reviews.length === 0 ? (
                             <tr>
-                                <td colSpan="3">No reviews yet. Be the first to leave a review!</td>
+                                <td colSpan="3"><strong>No reviews yet. Be the first to leave a review!</strong></td>
                             </tr>
                         ) : (
                             reviews.map(review => (
@@ -180,14 +190,14 @@ const DestinationReviews = ( ) => {
                                     <td>
                                         <div>
                                     <EditableText
-                                        value={editDraft[review.id]?.rating ?? review.rating}
+                                        value={editDraft[review.id]?.rating ?? review.rating}  /* Use the draft rating if available, otherwise use the original rating */
                                         onChange={(value) =>
                                             setEditDraft((prev) => ({
                                             ...prev,
                                             [review.id]: {
                                                 ...prev[review.id],
                                                 rating: value,
-                                                review: prev[review.id]?.review ?? review.review,
+                                                review: prev[review.id]?.review ?? review.review,  /* Use the original review if not editing */
                                             },
                                             }))
                                         }
@@ -197,13 +207,13 @@ const DestinationReviews = ( ) => {
                                 <td>
                                     <div>
                                     <EditableText
-                                      value={editDraft[review.id]?.review ?? review.review}
+                                      value={editDraft[review.id]?.review ?? review.review}  /* Use the draft review if available, otherwise use the original review */
                                         onChange={(value) =>
                                             setEditDraft((prev) => ({
                                             ...prev,
                                             [review.id]: {
                                                 ...prev[review.id],
-                                                rating: prev[review.id]?.rating ?? review.rating,
+                                                rating: prev[review.id]?.rating ?? review.rating,  /* Use the original rating if not editing */
                                                 review: value,
                                             },
                                             }))

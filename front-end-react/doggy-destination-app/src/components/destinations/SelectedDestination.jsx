@@ -2,23 +2,21 @@ import { Link, useParams } from "react-router";
 import image from "../../assets/pupPic1.jpg";
 import picture from "../../assets/pupPic2.jpg";   
 import dogPic from "../../assets/pupPic4.jpg";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import RiseLoader from 'react-spinners/RiseLoader';
 import "../styling/SelectedDestination.css";
-import InfoPage from "./InfoPage";
+
 
 const SelectedDestination = () => {
     
-    const { idealInfo } = useParams();
-    const { name } = useParams();
-    
+    const { idealInfo } = useParams(); 
+        
     const [ activityType, setActivityType ] = useState(""); // Use of state to handle activity type changes in the drop menu
     const [ error, setError ] = useState("");  // Error handling if no activity is chosen
     const [ loading, setLoading ] = useState(false);
-    const [ activities, setActivities] = useState([]); // Use of state to handle the activities chosen in the drop menu
+    const [ activities, setActivities] = useState([]); // Use of state to handle the activities chosen in the drop menu and display them
     const [ hover, setHover ] = useState(false);  // Fun hover pup messages on included images
-    const [ allDestinations, setAllDestinations ] = useState([]); // Use of state to handle the destination name from the URL params
-
+    
     const destinationNames = {
         Outdoor: [ "Willmore Dog Park", "Central Park Maplewood", "SLU Dog Park & Sculpture Garden"],
         Social: ["Bar K St. Louis", "Zoomies Pet Cafe + Boutique", "Rockwell Beer Garden"],
@@ -52,22 +50,6 @@ const SelectedDestination = () => {
         setHover(false);
     }; 
     
-    useEffect(() => {
-        fetchDestination();
-    }, []);
-
-    const fetchDestination = async () => {
-
-        const response = await fetch(`http://localhost:8080/api/doggyDestinations/${name}`, {
-            headers: {
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*"
-            }
-        })
-        setAllDestinations(await response.json())
-        setActivities(allDestinations.map(dest => dest.name));              
-    };
-
     return (
         <div className="selected-destination">
             <h2>{idealInfo}</h2>
@@ -86,7 +68,6 @@ const SelectedDestination = () => {
                 <button onClick={displayActivities}>Display Pup Activities!</button>}                
             </div>
                 {error && <p style={{color: "red"}}>{error}</p>} 
-
                 {activities.length > 0 && (                                               
                 <div className="selected">
                     <h2>Here are the Doggy Destinations in the category you selected:</h2>
@@ -131,7 +112,6 @@ const SelectedDestination = () => {
         </div>        
     );
 };
-
 
 export default SelectedDestination;    
 
