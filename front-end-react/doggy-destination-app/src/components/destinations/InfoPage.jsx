@@ -36,10 +36,10 @@ const InfoPage = () => {
             <div className="review-section">
                 <h3><strong>Want to help others learn about these fun pup destinations? Click the button below to leave a Review!</strong></h3>
                 <button>
-                    <Link to="/destinationReviews">Leave a Review!</Link>  /* Link to the review page */
+                    <Link to="/destinationReviews">Leave a Review!</Link>  {/* Link to the review page */}
                 </button>
                 <button>
-                    <Link to="/IdealInfo">Check out more Doggy Destinations!</Link>  /* Link to return to the main destinations page */
+                    <Link to="/IdealInfo">Check out more Doggy Destinations!</Link>  {/* Link to return to the main destinations page */}
                 </button>
             </div>
             <div className="image-gallery">

@@ -64,6 +64,7 @@ const SelectedDestination = () => {
                 </select> 
             </label>
             <div>
+                {/* Display a loading spinner while fetching activities */}
                 { loading ? <RiseLoader color="purple" loading={loading} /> :
                 <button onClick={displayActivities}>Display Pup Activities!</button>}                
             </div>

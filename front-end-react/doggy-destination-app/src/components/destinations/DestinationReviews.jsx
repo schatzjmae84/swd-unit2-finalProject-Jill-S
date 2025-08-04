@@ -178,7 +178,7 @@ const DestinationReviews = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        /* Check if there are any reviews to display */
+                        {/* Check if there are any reviews to display */}
                         {reviews.length === 0 ? (
                             <tr>
                                 <td colSpan="3"><strong>No reviews yet. Be the first to leave a review!</strong></td>
