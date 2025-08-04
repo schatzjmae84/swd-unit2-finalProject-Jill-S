@@ -1,7 +1,10 @@
 package com.my_project.pup_places.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity   // Represents a destination for pets, such as a dog park or pet-friendly social setting

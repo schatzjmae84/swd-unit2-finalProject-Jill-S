@@ -1,5 +1,6 @@
 package com.my_project.pup_places.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -29,6 +30,8 @@ public class DestinationReview {
     }
 
     public DestinationReview() {};
+
+    public int getId() { return id; }
 
     public String getName() {
         return name;

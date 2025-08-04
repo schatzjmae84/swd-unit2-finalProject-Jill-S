@@ -1,11 +1,11 @@
 const Footer = () => {
     return (
         <footer>
-            <p>&copy; 2025 The Doggy Destination App | Jill Schatz</p>
+            <p><strong>&copy; 2025  The Doggy Destination App | Jill Schatz</strong></p>
             <table style={{width: "100%"}}>
                 <thead>
                     <tr>
-                        <th>Contact</th>
+                        <th>Pup Pages</th>
                         <th>Resources</th>
                     </tr>
                     <tr>
@@ -30,6 +30,14 @@ const Footer = () => {
                         </td>
                         <td>
                             <a href="https://www.rover.com/">Rover - Loving pet care in your neighborhood</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="/destinationReviews">Destination Reviews</a>
+                        </td>
+                        <td>
+                            <a href="https://www.petfinder.com/dogs-and-puppies/adoption/">Pet Finder - Adopt a Pet</a>
                         </td>
                     </tr>
                 </thead>

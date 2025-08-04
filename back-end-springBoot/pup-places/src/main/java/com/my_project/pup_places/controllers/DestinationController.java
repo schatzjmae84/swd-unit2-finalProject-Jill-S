@@ -21,8 +21,8 @@ public class DestinationController {
 
     // GET method to retrieve a single destination by its name
     // Corresponds to the endpoint: /api/doggyDestinations/destinations/{name}
-    @GetMapping(value = "/destinations", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getName(@RequestParam(value = "name") String name) {
+    @GetMapping(value = "/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getDestinationByName(@PathVariable(value = "name") String name) {
         Destination currentDestination = destinationRepository.findByName(name).orElse(null);
         if (currentDestination != null) {
             return new ResponseEntity<>(currentDestination, HttpStatus.OK); // 200 OK

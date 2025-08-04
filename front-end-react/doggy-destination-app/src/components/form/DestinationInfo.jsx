@@ -129,5 +129,4 @@ const DestinationInfo = (props) => {
     );
 };
 
-
 export default DestinationInfo;

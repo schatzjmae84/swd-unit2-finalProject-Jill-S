@@ -1,25 +1,22 @@
-import { data, useParams } from "react-router"
-import image from "../assets/pupPic1.jpg";
-import picture from "../assets/pupPic2.jpg";
-import dogPic from "../assets/pupPic4.jpg";
+import { Link, useParams } from "react-router";
+import image from "../../assets/pupPic1.jpg";
+import picture from "../../assets/pupPic2.jpg";   
+import dogPic from "../../assets/pupPic4.jpg";
 import { useState } from "react";
 import RiseLoader from 'react-spinners/RiseLoader';
-import { Link } from "react-router";
-import "./styling/SelectedDestination.css"
-import InfoPage from "./InfoPage";
+import "../styling/SelectedDestination.css";
+
 
 const SelectedDestination = () => {
     
-    const { idealInfo } = useParams();
-    const { name } = useParams();
-    
+    const { idealInfo } = useParams(); 
+        
     const [ activityType, setActivityType ] = useState(""); // Use of state to handle activity type changes in the drop menu
     const [ error, setError ] = useState("");  // Error handling if no activity is chosen
     const [ loading, setLoading ] = useState(false);
-    const [ activities, setActivities] = useState([]); 
+    const [ activities, setActivities] = useState([]); // Use of state to handle the activities chosen in the drop menu and display them
     const [ hover, setHover ] = useState(false);  // Fun hover pup messages on included images
-    const [ allDestinations, setAllDestinations ] = useState([]); // Use of state to handle the destination ID from the URL params
-
+    
     const destinationNames = {
         Outdoor: [ "Willmore Dog Park", "Central Park Maplewood", "SLU Dog Park & Sculpture Garden"],
         Social: ["Bar K St. Louis", "Zoomies Pet Cafe + Boutique", "Rockwell Beer Garden"],
@@ -51,30 +48,8 @@ const SelectedDestination = () => {
     const onHoverOver = (event) => {
         event.preventDefault();
         setHover(false);
-    };  
+    }; 
     
-    const fetchDestination = async () => {
-
-        await fetch(`http://localhost:8080/api/doggyDestinations/destinations/${name}`, {
-            headers: {
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*"
-            }
-        })
-        .then((response) => response.json())
-        .then((data) => {
-            if (data && data.length > 0) {
-                setAllDestinations(data);
-                console.log(data);
-            } else {
-                setError("No destination found for the selected ID.");
-            }                  
-            allDestinations.map((dest) => (
-                <InfoPage key={dest.name} allDestinations={allDestinations} />
-            ));
-        });
-    }
-
     return (
         <div className="selected-destination">
             <h2>{idealInfo}</h2>
@@ -89,18 +64,18 @@ const SelectedDestination = () => {
                 </select> 
             </label>
             <div>
+                {/* Display a loading spinner while fetching activities */}
                 { loading ? <RiseLoader color="purple" loading={loading} /> :
                 <button onClick={displayActivities}>Display Pup Activities!</button>}                
             </div>
                 {error && <p style={{color: "red"}}>{error}</p>} 
-
                 {activities.length > 0 && (                                               
                 <div className="selected">
                     <h2>Here are the Doggy Destinations in the category you selected:</h2>
                     <ul>
                         {activities.map((activity, index) => (
                             <li key={index}>
-                            <Link to={`/doggyDestinations/${name}`} onClick={fetchDestination}>{activity}</Link>
+                            <Link to={`/doggyDestinations/${activity}`}>{activity}</Link>
                             </li>
                         ))} 
                     </ul>                          
@@ -138,7 +113,6 @@ const SelectedDestination = () => {
         </div>        
     );
 };
-
 
 export default SelectedDestination;    
 

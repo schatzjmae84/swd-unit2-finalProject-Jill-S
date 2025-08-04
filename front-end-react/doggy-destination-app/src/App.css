@@ -44,6 +44,7 @@ button {
     cursor: pointer;
     color: blue;
     background-color: aliceblue;
+        
 }
 
 main {
@@ -84,37 +85,7 @@ h3 {
 
 .item1 {
     grid-column-start: 1;
-    grid-column-end: 2;
-}
-
-.item2 {
-    grid-column-start: 2;
     grid-column-end: 3;
-}
-
-.item3 {
-    grid-column-start: 1;
-    grid-column-end: 2;
-}
-
-.item4 {
-    grid-column-start: 1;
-    grid-column-end: 3;
-}
-
-.item5 {
-    grid-column-start: 1;
-    grid-column-end: 2;
-}
-
-.item6 {
-    grid-column-start: 2;
-    grid-column-end: 3;
-}
-
-.item7 {
-    grid-column-start: 1;
-    grid-column-end: 2;
 }
 
 .flex-container {
@@ -151,6 +122,22 @@ h2 {
     margin: 0.5vw;
 }
 
+.review-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1vw; 
+    margin: 1vw; 
+    padding: 10px;
+}
+
+@media screen and (max-width: 600px) {
+  .review-section {
+    flex-direction: column;
+    gap: 10px; 
+  }
+}
+
 footer {
     padding: 10px;
     font-weight: bolder;
@@ -175,6 +162,59 @@ th {
     font-size: medium;
     color: rgb(3, 3, 110);
     text-decoration: underline;
+}
+
+.review-form {
+    min-width: 80%;   
+    margin: 0.5vw;
+    padding: 1vw;
+    border: double;
+    border-radius: 10px;
+}
+
+.review-form h2 {
+    display: block;
+    text-align: center;
+    margin: 0 0 2vh 0;
+    border: 0;
+    border-radius: 5px;
+    background-color: rgb(238, 220, 220);
+    
+}
+
+.review-form input, textarea {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 0.9vw 0;
+    border: 0;
+    border-radius: 5px;
+    font-size: 20px;
+    background-color: rgb(238, 220, 220);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;    
+}
+
+.reviews {
+  margin: 0.5vw;
+  min-width: 80%;
+  padding: 1vw;
+  border: groove;
+  background-color: rgb(204, 180, 241);
+  color: rgb(56, 3, 124);
+  opacity: 0.80;
+  font-weight: bolder;
+  font-size: large;
+}
+
+.reviews table,
+.reviews th,
+.reviews td {
+  font-size: 17px; /* or try 18px, 20px, etc. */
 }
 
 /* Copied from Google Fonts*/
