@@ -1,10 +1,6 @@
 package com.my_project.pup_places.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @Entity   // Represents a destination for pets, such as a dog park or pet-friendly social setting
@@ -96,6 +92,7 @@ public class Destination {
         this.website = website;
     }
 
+    // Returns a string representation of the Destination object
     @Override
     public String toString() {
         return "Name:" + name + "\n" +
@@ -106,6 +103,7 @@ public class Destination {
                 "Website:" + website;
     }
 
+    // Overrides the equals method to compare Destination objects based on their IDs
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -115,6 +113,7 @@ public class Destination {
         return id == destination.id;
     }
 
+    // Overrides the hashCode method to generate a hash code based on the ID
     @Override
     public int hashCode() {
         return Objects.hashCode(id);

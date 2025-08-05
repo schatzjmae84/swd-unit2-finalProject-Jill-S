@@ -71,12 +71,14 @@ public class Address {
         this.zipCode = zipCode;
     }
 
+    // Returns the full address as a formatted string
     @Override
     public String toString() {
         return addressOne + "\n" +
                 city + ", " + state + ", " + zipCode;
     }
 
+    // Overriding equals and hashCode methods to compare Address objects based on their id
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
