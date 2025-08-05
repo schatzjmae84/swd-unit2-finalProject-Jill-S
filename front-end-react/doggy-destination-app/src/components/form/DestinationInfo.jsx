@@ -101,7 +101,8 @@ const DestinationInfo = (props) => {
                 onChange={handleDogBreedChange}/>
             </label><br />
             <label>                
-                <input required placeholder="Type of Pup Activity: Outdoor, Social, or Pup Event" type="text" name="activity" value={activity} onChange={handleActivityChange}/>                
+                <input required placeholder="Type of Pup Activity: Outdoor, Social, or Pup Event" type="text" name="activity" value={activity} 
+                onChange={handleActivityChange}/>                
             </label><br />
             <label>                
                 <input required placeholder="Zip Code for Activity Search" type="text" name="zipCode" value={zipCode}
@@ -122,7 +123,7 @@ const DestinationInfo = (props) => {
                 <button type="submit" onClick={handleSubmit}>Submit Form</button>
             </div>  
             <div>
-                <Link to="/idealInfo"><button>Continue to Pup Activity Info!</button></Link>             
+                <Link to="/idealInfo"><button>Find a Doggy Destination!</button></Link>             
             </div>
             <ToastContainer />        
         </div>

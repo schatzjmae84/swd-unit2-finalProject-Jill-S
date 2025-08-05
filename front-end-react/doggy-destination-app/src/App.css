@@ -166,7 +166,7 @@ th {
 
 .review-form {
     min-width: 80%;   
-    margin: 0.5vw;
+    margin: 1.5vw;
     padding: 1vw;
     border: double;
     border-radius: 10px;
@@ -186,7 +186,7 @@ th {
     display: block;
     width: 100%;
     padding: 10px;
-    margin: 0.9vw 0;
+    margin: 1.5vw 0;
     border: 0;
     border-radius: 5px;
     font-size: 20px;
@@ -199,16 +199,15 @@ th {
     padding: 0;    
 }
 
-.reviews {
-  margin: 0.5vw;
-  min-width: 80%;
-  padding: 1vw;
+.reviews {  
   border: groove;
-  background-color: rgb(204, 180, 241);
+  background-color: rgb(222, 205, 247);
   color: rgb(56, 3, 124);
-  opacity: 0.80;
+  opacity: 0.90;
   font-weight: bolder;
   font-size: large;
+  padding: 10px;
+  margin: 1.5vw;
 }
 
 .reviews table,
