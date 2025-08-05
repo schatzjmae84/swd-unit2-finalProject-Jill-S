@@ -2,6 +2,10 @@ import EditableText from "./EditableText.jsx";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
+import pupPic from "../../assets/pupPic5.jpg";
+import puppers from "../../assets/pupPic6.jpg";
+import doggyPic from "../../assets/pupPic7.jpg";
+import fancyPups from "../../assets/pupPic8.jpg";
 
 
 const DestinationReviews = () => {
@@ -14,11 +18,11 @@ const DestinationReviews = () => {
                 "Access-Control-Allow-Origin": "*"
             }
         })
-            .then(response => response.json())
-            .then(data => {
-                setReviews(Array.isArray(data) ? data : []);
-            })
-            .catch(() => setReviews([]));  // If fetch fails, set to an empty array
+        .then(response => response.json())
+        .then(data => {
+            setReviews(Array.isArray(data) ? data : []);
+        })
+        .catch(() => setReviews([]));  // If fetch fails, set to an empty array
     }, []);
 
     const { DestinationReviews } = useParams();
@@ -51,7 +55,7 @@ const DestinationReviews = () => {
             },
             body: JSON.stringify(review)
         });
-        fetch("http://localhost:8080/api/destinationReviews")
+        fetch("http://localhost:8080/api/destinationReviews")  // Fetch all reviews after adding a new one
         .then(response => response.json())
         .then(data => setReviews(Array.isArray(data) ? data : []));  // Use Array.isArray to ensure data is an array       
     };
@@ -167,9 +171,9 @@ const DestinationReviews = () => {
                     <button type="submit" onClick={handleReviewSubmit}>Submit Review</button>
                 </form>
             </div>    
-            <div className="reviews">
+            <div className="flex-container">
             <h2>{DestinationReviews}</h2>
-                <table style={{width: "100%"}}>
+                <table className="reviews" style={{width: "100%"}}>
                     <thead>
                         <tr>
                             <th>Name</th>
@@ -222,10 +226,10 @@ const DestinationReviews = () => {
                                     </div>
                                 </td>
                                 <td>
-                                    <button intent="primary" onClick={() => updateReview(review.id)}>Update</button>
+                                    <button intent="primary" onClick={() => updateReview(review.id)}>Update Review</button>
                                 </td>
                                 <td>
-                                    <button intent="danger" onClick={() => deleteReview(review.id)}>Delete</button>
+                                    <button intent="danger" onClick={() => deleteReview(review.id)}>Delete Review</button>
                                 </td>                                
                             </tr>
                         )))}
@@ -233,8 +237,22 @@ const DestinationReviews = () => {
                 </table>
                 <ToastContainer />       
             </div>
+            <div className="flex-container">
+                <div>              
+                <img className="image" src={pupPic} width="225" height="300" alt="Sassy frilled-out Chihuahua" />   
+                </div>
+                <div>
+                <img className="picture" src={puppers} width="425" height="300" alt="The two best pup buds ever!" />
+                </div>
+                <div>
+                <img className="dogPic" src={doggyPic} width="190" height="300"  alt="Fluffy pup sticking his tongue out" />
+                </div> 
+                <div>
+                <img className="dogPic" src={fancyPups} width="420" height="300"  alt="Two fancy pugs wearing bowties!" />
+                </div>
+            </div>
         </div>    
-    )
+    );
 };
 
 export default DestinationReviews;

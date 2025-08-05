@@ -1,6 +1,5 @@
 package com.my_project.pup_places.models;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -57,6 +56,7 @@ public class DestinationReview {
         this.review = review;
     }
 
+    // Returns a string representation of the DestinationReview object
     @Override
     public String toString() {
         return "Name: " + name + "\n" +
@@ -64,6 +64,7 @@ public class DestinationReview {
                "Review: " + review;
     }
 
+    // Overrides the equals and hashCode methods to compare DestinationReview objects based on their ID
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

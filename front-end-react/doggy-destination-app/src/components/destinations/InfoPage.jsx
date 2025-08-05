@@ -34,7 +34,7 @@ const InfoPage = () => {
                 </div>
             </div>
             <div className="review-section">
-                <h3><strong>Want to help others learn about these fun pup destinations? Click the button below to leave a Review!</strong></h3>
+                <h3><strong>Want to help others learn about these fun pup destinations? Click the button to leave a Review!</strong></h3>
                 <button>
                     <Link to="/destinationReviews">Leave a Review!</Link>  {/* Link to the review page */}
                 </button>

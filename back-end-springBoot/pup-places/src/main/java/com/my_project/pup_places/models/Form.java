@@ -80,11 +80,13 @@ public class Form {
         this.zipCode = zipCode;
     }
 
+    // Override toString method for better readability when printing Form objects
     @Override
     public String toString() {
         return pupName + " " + username + " " + dogBreed + " " + activity + " " + zipCode;
     }
 
+    // Override equals and hashCode methods to ensure proper comparison and hashing based on the id field
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

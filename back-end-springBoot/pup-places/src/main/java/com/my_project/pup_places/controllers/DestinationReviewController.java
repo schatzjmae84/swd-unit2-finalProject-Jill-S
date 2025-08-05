@@ -1,8 +1,6 @@
 package com.my_project.pup_places.controllers;
-import com.my_project.pup_places.models.Destination;
 import com.my_project.pup_places.models.DestinationReview;
 import com.my_project.pup_places.repositories.DestinationReviewRepository;
-import org.apache.catalina.LifecycleState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -11,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600) // Allow cross-origin requests from any origin
 @RestController
@@ -34,7 +31,7 @@ public class DestinationReviewController {
         return new ResponseEntity<>(newDestinationReview, HttpStatus.CREATED); // 201 Created
     }
 
-    // GET method to retrieve all destination reviews
+    // GET method to retrieve all destination reviews to be displayed on the reviews page
     // Corresponds to the endpoint: /api/destinationReviews
     @GetMapping(value = "")
     public ResponseEntity<?> getAllDestinationReviews() {

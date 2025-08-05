@@ -67,7 +67,7 @@ const Main = () => {
         });
     };
 
-    // Function to save the new form data
+    // Function to POST the new form data
     const saveNewForm = async form => {
 
         await fetch('http://localhost:8080/api/pupPlaces/forms', {
