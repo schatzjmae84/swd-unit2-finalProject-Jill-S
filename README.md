@@ -15,9 +15,9 @@
 
 Are you new to the city of St. Louis?  Do you have a pup that you are wanting to take out exploring with you?  Well, you have come to the right place!  The Doggy Destination App is geared towards dog owners in the city that are looking for some "pup places" where they can be with their pup, still have fun, and maybe meet some other dog owners in the area.  The user can choose from three different activity categories:  Outdoor Activities, Social Settings, and Pup Events in the area.  Once they have decided on an activity, then they can choose from a list of destinations in order to find the new pup place they are searching for!  There is also a reviews page for them to check out so they can read about other's experiences, and see if they are interested in checking out that destination.  I thought of creating this app because I am a dog Mom myself, and was curious about places I could take my pup in the city.  St. Louis is a very dog friendly area, and I wanted others to get to see what is out there for both human and pups to enjoy together. 😊   
 
-## ✍️ Authors
+## ✍️ Author
 
-I am Jill Schatz, and I am a new software developer that is about to finish up a crazy fun cohort with LaunchCode.  This is my final project, and it was so much fun to create and to get to expand on the knowledge of what we learned during our class.  I am excited to continue to learn, and put more fun and helpful apps like this out in the world! 🌸 
+I am Jill Schatz, and I am a new software developer that is about to finish up a crazy fun cohort with LaunchCode.  This is my final project, and it was so much fun to create and to get the opportunity to expand on the knowledge of what we learned during our class.  I am excited to continue to grow in the world of tech and software development, and to get the chance to put more fun and helpful apps like this out in the world! 🌸 
 
 ## 💾 Creating Your Database
 
@@ -25,7 +25,7 @@ I am Jill Schatz, and I am a new software developer that is about to finish up a
 
 [Doggy Destination ER Diagram](https://docs.google.com/document/d/16KEtVQEYTNOXMILW2uOPjyhtkiBzg8CHUkSMwZYupSQ/edit?tab=t.0)
 
-- I used MySQL Workbench to create my database. I have included my ERD so you can see the layout of all of the tables that need to be created in order for this app to function.
+- I used MySQL Workbench to create my database. I have included my ERD so you can see the layout of all of the tables that need to be created in order for this app to function.  I have also included my wireframes so you can get an idea of what the final product is supposed to look like.  You can also use this as a guide to help you set up your tables properly.
 - Once you have entered your password, and are in MySQL, create a new schema and name it something "pup-like."🐶
 - Now all you have to do is run the Java program in IntelliJ and let hibernate do its magic to create your tables for you!
 - The form table and the destination_review table are both populated by users through the app, however, you will need to populate the destination and address tables with the "Doggy Destinations" that are in your area that you would like to feature in your version of the app!!
@@ -36,17 +36,26 @@ I am Jill Schatz, and I am a new software developer that is about to finish up a
 - I created the front-end of this project using React/Vite in VSCode.  Change directories until you are in the front-end-react folder, and in the doggy-destination-app folder, then open in VSCode.
 - Once the project is open in VSCode, be sure you are in the doggy-destination-app folder, and in your terminal, run `npm install` in order to make sure all of the dependencies for this project are available locally.
 - Check your package.json file to be sure all of the necessary dependencies are there, then finally run `npm run dev` and you should see the localhost where the app is now available for viewing!  
-- I created the back-end of this project in IntelliJ.  Create a new Maven project in IntelliJ, and then open your repo by following these steps:
+- I created the back-end of this project using SpringBoot in IntelliJ.  Create a new Maven project in IntelliJ, and then open your repo by following these steps:
   - Click on the hamburger menu, hover over VCS, and click on `Enable Version Control Integration`.
   - Click on the hamburger menu again, hover over GIT, and click on `Manage Remote`.
   - Add the URL of your cloned repo, and you will be good to go!
 - Make sure you are in the back-end-springBoot and pup-places folders.  You will need to go into the `application.properties` file and update the password to match your database password.
   - Click on the `Unit2-final-project` at the top of the page and navigate to `Edit Configurations...`.
   - Under the `Application` heading, you will need to update the Environmental variables to match your database password using this format DB_PASSWORD=YourPassword.
-- Click the ▶️ at the top of the page and run the program!  You should be able to enter in endpoints for the controllers now at localhost:8080.  
+- Once your environmental variables are all up-to-date, click the ▶️ at the top of the page and run the program!  You should be able to enter in endpoints for the controller methods now at localhost:8080.
+- Your final installation checklist:
+    - Create database and make sure it is running. Test endpoints in Postman if needed!
+    - Successfully update Environmental Variables and make sure the SpringBoot program is running.
+    - Finally, check all dependencies in your React project, and get the front-end running....then enjoy your successfully installed app!!   
 
-## 💭 Feedback and Contributing
+## 🦄 Feedback and Future Features
 
-Add a link to the Discussions tab in your repo and invite users to open issues for bugs/feature requests.
+[Doggy Destination Discussions!](https://github.com/schatzjmae84/swd-unit2-finalProject-Jill-S/discussions)
 
-This is also a great place to invite others to contribute in any ways that make sense for your project. Point people to your DEVELOPMENT and/or CONTRIBUTING guides if you have them.
+I would love to hear your thoughts!  Feel free to join in on the discussion linked above if you have any thoughts, questions, or encounter any set-up problems along the way.
+In the next phase of my app, I would like to create a login for pupPerks using authentication.  I have the pupPerks form for the user to fill out, but right now it is a form to nowhere.  In the future I would like to have them fill out the form to become a member, and then I will create a public side of the app and a member side of the app so those that sign in actually get the pupPerks....which are to be determined! 🐕
+
+
+
+
