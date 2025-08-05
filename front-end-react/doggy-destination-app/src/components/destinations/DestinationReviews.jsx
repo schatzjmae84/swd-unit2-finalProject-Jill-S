@@ -239,16 +239,16 @@ const DestinationReviews = () => {
             </div>
             <div className="flex-container">
                 <div>              
-                <img className="image" src={pupPic} width="225" height="300" alt="Sassy frilled-out Chihuahua" />   
+                    <img className="image" src={pupPic} width="225" height="300" alt="Sassy frilled-out Chihuahua" />   
                 </div>
                 <div>
-                <img className="picture" src={puppers} width="425" height="300" alt="The two best pup buds ever!" />
+                    <img className="picture" src={puppers} width="425" height="300" alt="The two best pup buds ever!" />
                 </div>
                 <div>
-                <img className="dogPic" src={doggyPic} width="190" height="300"  alt="Fluffy pup sticking his tongue out" />
+                    <img className="dogPic" src={doggyPic} width="190" height="300"  alt="Fluffy pup sticking his tongue out" />
                 </div> 
                 <div>
-                <img className="dogPic" src={fancyPups} width="420" height="300"  alt="Two fancy pugs wearing bowties!" />
+                    <img className="dogPic" src={fancyPups} width="420" height="300"  alt="Two fancy pugs wearing bowties!" />
                 </div>
             </div>
         </div>    
