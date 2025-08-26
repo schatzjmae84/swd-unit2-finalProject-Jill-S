@@ -26,9 +26,10 @@ h1 {
 }
 
 .pic {
-    padding: 25px;
+    padding: 15px;
     border: double;   
-    margin: 1vw; 
+    margin: 1vw;
+    border-width:thick; 
 }
 
 @media screen and (max-width: 600) {
@@ -213,7 +214,12 @@ th {
 .reviews table,
 .reviews th,
 .reviews td {
-  font-size: 17px; /* or try 18px, 20px, etc. */
+  font-size: 17px;
+}
+
+.image, .picture, .dogPic {
+    border: dotted;
+    padding: 5px; 
 }
 
 /* Copied from Google Fonts*/
