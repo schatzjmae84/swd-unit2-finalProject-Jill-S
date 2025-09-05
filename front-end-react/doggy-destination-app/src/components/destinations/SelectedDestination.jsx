@@ -19,8 +19,8 @@ const SelectedDestination = () => {
     
     const destinationNames = {
         Outdoor: [ "Willmore Dog Park", "Central Park Maplewood", "SLU Dog Park & Sculpture Garden"],
-        Social: ["Bar K St. Louis", "Zoomies Pet Cafe + Boutique", "Rockwell Beer Garden"],
-        PupEvents: ["Yappy Hour at Le Meridien", "Sunday Funday! Dog Yoga at Third Wheel Brewing", "Summer Camp: We Love Doggos!"]
+        Social: ["The Barn", "Zoomies Pet Cafe + Boutique", "Rockwell Beer Garden"],
+        PupEvents: ["St. Louis, MO Boston PlayDate", "Sunday Funday! Dog Yoga at Third Wheel Brewing", "4th Annual Dog's Day Out", "MEHS Woofstock 2025"]
     }; 
     
     const displayActivities = () => {           
