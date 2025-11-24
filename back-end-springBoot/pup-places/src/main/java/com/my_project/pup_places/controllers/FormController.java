@@ -8,7 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "*", maxAge = 3600) // Allow cross-origin requests from any origin
+// @CrossOrigin(origins = "*", maxAge = 3600) // Allow cross-origin requests from any origin
 @RestController
 @RequestMapping("/api/pupPlaces") // Base URL for the API
 public class FormController {

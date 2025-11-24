@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 
-@CrossOrigin(origins = "*", maxAge = 3600) // Allow cross-origin requests from any origin
+// @CrossOrigin(origins = "*", maxAge = 3600) // Allow cross-origin requests from any origin
 @RestController
 @RequestMapping("/api/doggyDestinations") // Base URL for the API
 public class DestinationController {

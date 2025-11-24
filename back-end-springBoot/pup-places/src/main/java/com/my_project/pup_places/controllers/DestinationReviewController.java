@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collections;
 import java.util.List;
 
-@CrossOrigin(origins = "*", maxAge = 3600) // Allow cross-origin requests from any origin
+// @CrossOrigin(origins = "*", maxAge = 3600) // Allow cross-origin requests from any origin
 @RestController
 @RequestMapping("/api/destinationReviews") // Base URL for the API
 public class DestinationReviewController {

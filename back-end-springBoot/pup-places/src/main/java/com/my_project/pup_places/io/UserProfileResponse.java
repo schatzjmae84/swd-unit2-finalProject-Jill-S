@@ -1,4 +1,4 @@
-package com.my_project.pup_places.models.dto;
+package com.my_project.pup_places.io;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,11 +11,10 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserProfileDTO {
+public class UserProfileResponse {
 
     private String email;
     private String name;
-    private String password;
     private Timestamp createdAt;
     private Timestamp updatedAt;
 }
